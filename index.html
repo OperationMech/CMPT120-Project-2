@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Anthony Cali
+     Project 2, Game version 0.2
+     September 26, 2012
+     -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="author" content="Anthony Cali">
+	<title>Text Adventure: Quantumplexing </title>
+	<link href="page_general.css" rel="stylesheet" type="text/css">
+	<style>
+	</style>
+	<link href="Game_code.js" rel="stylesheet" type="text/Javascript">
+	<script>
+	</script>
+  </head>
+  <body>
+    <h1>
+	  Quantumplexing
+	</h1>
+	
+	<input type="button"
+           value="North"
+		   onClick="Change_location(1);">
+		   
+	<input type="button"
+           value="South"
+		   onClick="Change_location(2);">
+	
+	<input type="button"
+           value="East"
+		   onClick="Change_location(3);">
+		   
+	<input type="button"
+           value="West"
+		   onClick="Change_location(4);">
+	<br>
+    <br>
+	<textarea id="Game_area" rows="30" cols="60">This is text.</textarea>
+	<div style="footer">
+	  <p style="footer" id="score_print">Score:0</p>
+      <a href="mailto:operationmech@gmail.com">E-mail help</a>
+	</div>
+  </body>
+</html>

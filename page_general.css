@@ -1,0 +1,28 @@
+/* Gerneral CSS */
+Body {
+    text-align:center;
+    color: green;
+	background-color: black;
+	font: System;
+}
+
+h1 {
+    color: green;
+    font: System;
+    font-size: 40pt;
+}
+
+footer {
+    color:green;
+	font: Arial;
+	font-size: 10pt;
+}
+
+#Game_area {
+    color: green;
+	background-color: black;
+	font: Arial;
+	font-size: 12pt;
+	border-color: green;
+}
+

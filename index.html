@@ -11,8 +11,7 @@
 	<link href="page_general.css" rel="stylesheet" type="text/css">
 	<style>
 	</style>
-	<link href="Game_code.js" rel="stylesheet" type="text/Javascript">
-	<script>
+	<script src="Game_code.js">
 	</script>
   </head>
   <body>
@@ -22,24 +21,26 @@
 	
 	<input type="button"
            value="North"
-		   onClick="Change_location(1);">
+		   onClick=Change_location(1);>
 		   
 	<input type="button"
            value="South"
-		   onClick="Change_location(2);">
+		   onClick=Change_location(2);>
 	
 	<input type="button"
            value="East"
-		   onClick="Change_location(3);">
+		   onClick=Change_location(3);>
 		   
 	<input type="button"
            value="West"
-		   onClick="Change_location(4);">
+		   onClick=Change_location(4);>
 	<br>
     <br>
 	<textarea id="Game_area" rows="30" cols="60">This is text.</textarea>
 	<div style="footer">
-	  <p style="footer" id="score_print">Score:0</p>
+	  <textarea rows="1" cols="9" readonly="readonly" 
+	            id="score_print">Score:0</textarea>
+	  <br>
       <a href="mailto:operationmech@gmail.com">E-mail help</a>
 	</div>
   </body>

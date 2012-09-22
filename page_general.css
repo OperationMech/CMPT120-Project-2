@@ -26,3 +26,10 @@ footer {
 	border-color: green;
 }
 
+#score_print {
+    color: green;
+	background-color: black;
+	font: Arial;
+	font-size: 12pt;
+	border: none;
+}

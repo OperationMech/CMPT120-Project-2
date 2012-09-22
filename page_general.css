@@ -3,25 +3,25 @@ Body {
     text-align:center;
     color: green;
 	background-color: black;
-	font: System;
+	font-family: fixedsys;
 }
 
 h1 {
     color: green;
-    font: System;
+    font-family: serif;
     font-size: 40pt;
 }
 
-footer {
+#bottom {
     color:green;
-	font: Arial;
+	font-family: fixedsys;
 	font-size: 10pt;
 }
 
 #Game_area {
     color: green;
 	background-color: black;
-	font: Arial;
+	font-family: serif;
 	font-size: 12pt;
 	border-color: green;
 }
@@ -29,7 +29,7 @@ footer {
 #score_print {
     color: green;
 	background-color: black;
-	font: Arial;
+	font-family: fixedsys;
 	font-size: 12pt;
 	border: none;
 }

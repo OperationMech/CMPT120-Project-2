@@ -56,7 +56,7 @@ function Increase_score_once(location_visited) {
        locations[3] = true;
 	   score += 5;
 	}else {
-	  alert( "Visited");
+	  alert( "Visited"); // was for error handling now just a feature
 	}
 	score_area.value = "Score:" + score;
 }

@@ -18,6 +18,7 @@ function Interaction_selector() {
       } else if(command.value.toLowerCase() === w) {
         Change_location("west"); 
       } else if(command.value.toLowerCase() === interact){ 
+        Interact_location(location);
       }
     } else {
       Print_Game("Invalid command issued.");

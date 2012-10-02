@@ -4,41 +4,66 @@
 var locations = [false, false, false, false];
 var score = 0;
 
-function Change_location(dir) {
+function Interaction_selector() {
+  //Text based command selector
+    var command = document.getElementById("Command_area");
+    if(command.value !== 0) {
+    
+      if(command.value.toLowerCase() === n) {
+        Change_location("north");
+      } else if(command.value.toLowerCase() === s) {
+        Change_location("south");
+      } else if(command.value.toLowerCase() === e) {
+        Change_location("east"); 
+      } else if(command.value.toLowerCase() === w) {
+        Change_location("west"); 
+      } else if(command.value.toLowerCase() === interact){ 
+      }
+    } else {
+      Print_Game("Invalid command issued.");
+    }
+}
+
+function Print_Game(message) {
+   game_area = document.getElementById("Game_area");
+   game_area.value = message + "\n\n" + game_area.value;
+}
+
+function Change_location_button(dir) {
   //Buttton to location conversion
     var game_area = document.getElementById("Game_area");
 	var direction = "";
     if(	dir === 1) {
 	  direction = "north";
-	  move_to_Area(game_area, direction);
+	  move_to_Area(direction);
 	} else if( dir === 2) {
 	  direction = "south";
-	  move_to_Area(game_area, direction);
+	  move_to_Area(direction);
 	} else if (dir === 3) {
 	  direction = "east";
-	  move_to_Area(game_area, direction);
+	  move_to_Area(direction);
 	} else if (dir === 4) {
 	  direction = "west";
-	  move_to_Area(game_area, direction);
+	  move_to_Area(direction);
 	} else {
 	  alert("This should not happen"); // ERROR HANDLING
 	}
 }
 
 // No more placeholders
-function move_to_Area(game_area, newLocation) {
+function move_to_Area(newLocation) {
   // Chooses direction
     if( newLocation === "north") {
-	   game_area.value = "You hit the panel wall." + "\n\n" + game_area.value;
+	   Print_Game("You hit the panel wall.");
 	   Increase_score_once(newLocation);
 	}else if( newLocation === "south") {
-	   game_area.value = "You ran into the south pane." + "\n\n" + game_area.value;
+           Print_Game("You ran into the south pane.");
 	   Increase_score_once(newLocation);
 	}else if( newLocation === "east") {
-	   game_area.value = "You walked into the east pane." + "\n\n" + game_area.value;
+           Print_Game("You walked into the east pane.");
 	   Increase_score_once(newLocation);
 	}else if( newLocation === "west") {
-	   game_area.value = "You tapped the west pane." + "\n\n" + game_area.value;
+           Print_Game("You tapped the west pane.");
 	   Increase_score_once(newLocation);
 	}else {
 	  alert( "This should never happen"); // ERROR HANDLING

@@ -4,7 +4,11 @@
 var is_last_traveler = false;
 var north_panel_hits_remaining = 4;
 var has_map = false;
-var locations = [ ["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed."], ["hallway",false, "manipulator"], ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge." ], ["incinerator", false, "manipulator"], ["chaimber2", false, "switch"]];
+var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed."], 
+                 ["hallway",false, "manipulator"], 
+				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge." ], 
+				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
+				 ["chaimber2", false, "switch"]];
 var current_location = 0;
 var score = 0;
 
@@ -91,16 +95,20 @@ function adjust_north_panel(is_rammed) {
   }else {
     print_Game("You have become entrapped in the panels. The announcer states " +
 	           "'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
-	           "\nThe panel rises, the floor opens, and you are released into the pit.") 
-	change_to_incinerator();
+	           "\nThe panel rises, the floor opens, and you are released into the pit."+
+			   "\nWhile falling a crushing panel misses your forhead by 2.5 cm."+
+			   "\nYou land in the decrepit incinerator zone.  In the distance there is a device.  You slowly advance toward the device."+
+               "Upon standing above the device you notice it is a manipulator.") 
+	current_location = 4;
   }
 }
 
   //Function allows for location interaction
 function interact_location(command) {
+    var mapArea = document.getElementById("map_location");
 	if((command.value.slice(8).toLowerCase() === "map" && !has_map) || 
 	    command.value.slice(8).toLowerCase() === "mental map") {
-	  print_Game(mental_mapped_location());
+	  mapArea.value = mental_mapped_location();
 	}else if(command.value.slice(8,10).toLowerCase() === "use" && 
 	    command.value.split(" ")[1].toLowerCase() === locations[current_location][3]) {
 		print_Game(locations[current_location][4]);

@@ -1,93 +1,129 @@
 // Javascript
 
 //Global variables
-var locations = [false, false, false, false];
+var is_last_traveler = false;
+var north_panel_hits_remaining = 4;
+var has_map = false;
+var locations = [ ["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed."], ["hallway",false, "manipulator"], ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge." ], ["incinerator", false, "manipulator"], ["chaimber2", false, "switch"]];
+var current_location = 0;
 var score = 0;
 
-function Interaction_selector() {
+function interaction_selector() {
   //Text based command selector
     var command = document.getElementById("Command_area");
     if(command.value !== 0) {
     
-      if(command.value.toLowerCase() === n) {
-        Change_location("north");
-      } else if(command.value.toLowerCase() === s) {
-        Change_location("south");
-      } else if(command.value.toLowerCase() === e) {
-        Change_location("east"); 
-      } else if(command.value.toLowerCase() === w) {
-        Change_location("west"); 
-      } else if(command.value.toLowerCase() === interact){ 
-        Interact_location(location);
+      if(command.value.toLowerCase() === "n") {
+        change_location("north");
+      } else if(command.value.toLowerCase() === "s") {
+        change_location("south");
+      } else if(command.value.toLowerCase() === "e") {
+        change_location("east"); 
+      } else if(command.value.toLowerCase() === "w") {
+        change_location("west"); 
+      } else if(command.value.toLowerCase() === "interact:") { 
+        interact_location(command);
       }
+	  
     } else {
-      Print_Game("Invalid command issued.");
+      Print_Game("Your character scratches his head.");
     }
 }
 
-function Print_Game(message) {
+//  Simple function to update the text area
+function print_Game(message) {
    game_area = document.getElementById("Game_area");
    game_area.value = message + "\n\n" + game_area.value;
 }
 
-function Change_location_button(dir) {
+function change_location_button(dir) {
   //Buttton to location conversion
     var game_area = document.getElementById("Game_area");
 	var direction = "";
     if(	dir === 1) {
 	  direction = "north";
 	  move_to_Area(direction);
-	} else if( dir === 2) {
+	}else if( dir === 2) {
 	  direction = "south";
 	  move_to_Area(direction);
-	} else if (dir === 3) {
+	}else if (dir === 3) {
 	  direction = "east";
 	  move_to_Area(direction);
-	} else if (dir === 4) {
+	}else if (dir === 4) {
 	  direction = "west";
 	  move_to_Area(direction);
-	} else {
-	  alert("This should not happen"); // ERROR HANDLING
+	}else {
+	  alert("This should not happen"); // ERROR Message
 	}
 }
 
 // No more placeholders
 function move_to_Area(newLocation) {
-  // Chooses direction
+  // Chooses direction in location 0
+  if(current_area === 0){
+  
     if( newLocation === "north") {
-	   Print_Game("You hit the panel wall.");
-	   Increase_score_once(newLocation);
+	   print_Game(adjust_north_panel());
+	   increase_score_once(newLocation);
 	}else if( newLocation === "south") {
-           Print_Game("You ran into the south pane.");
-	   Increase_score_once(newLocation);
+       print_Game("You ran into the south pane.");
+	   increase_score_once(newLocation);
 	}else if( newLocation === "east") {
-           Print_Game("You walked into the east pane.");
-	   Increase_score_once(newLocation);
+       print_Game("You walked into the east pane.");
+	   increase_score_once(newLocation);
 	}else if( newLocation === "west") {
-           Print_Game("You tapped the west pane.");
-	   Increase_score_once(newLocation);
+       print_Game("You tapped the west pane.");
+	   increase_score_once(newLocation);
 	}else {
-	  alert( "This should never happen"); // ERROR HANDLING
+	  alert( "This should never happen"); // ERROR Message
+	}
+  }else {
+  }
+}
+
+function adjust_north_panel(is_rammed) {
+  if(is_rammed && counter > 0) {
+    north_panel_hits_remaining = north_panel_hits_remaining -1;
+    return "You hit the panel wall, and it shifted.  The timer reads 00:0" 
+	       + north_panel_hits_remaining + ":00"
+  }else if ( counter === -1) {
+    
+  }else {
+    print_Game("You have become entrapped in the panels. The announcer states " +
+	           "'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
+	           "\nThe panel rises, the floor opens, and you are released into the pit.") 
+	change_to_incinerator();
+  }
+}
+
+  //Function allows for location interaction
+function interact_location(command) {
+	if((command.value.slice(8).toLowerCase() === "map" && !has_map) || 
+	    command.value.slice(8).toLowerCase() === "mental map") {
+	  print_Game(mental_mapped_location());
+	}else if(command.value.slice(8,10).toLowerCase() === "use" && 
+	    command.value.split(" ")[1].toLowerCase() === locations[current_location][3]) {
+		print_Game(locations[current_location][4]);
+		north_panel_hits_remaining = -1;
+		is_last_traveler = true;
+	} else {
+	  print_Game("interaction commands are as follows:  interact:<command> <object> \n" + 
+	              "Valid commands are: h, ?, help, map, mental map, and use.");
 	}
 }
 
-function Increase_score_once(location_visited /*,pair - future use */) {
+function change_location(dir) {
+   
+}
+
+function increase_score_once() {
   //scoring function and logical check
    var score_area = document.getElementById("score_print");
-   if( location_visited ===  "north" && locations[0] === false) {
-       locations[0] = true;
-	   score += 5;
-	}else if( location_visited ===  "south" && locations[1] === false) {
-       locations[1] = true;
-	   score += 5;
-	}else if( location_visited ===  "east" && locations[2] === false) {
-       locations[2] = true;
-	   score += 5;
-	}else if( location_visited ===  "west" && locations[3] === false) {
-       locations[3] = true;
-	   score += 5;
-	}/*else {
-	  alert( "Visited");  was for error handling now just a comment
-	}*/
+   if(locations[current_location][1] === false) {
+       locations[current_location][1] = true;
+	   score = score + 5;
+	}else {
+	  //alert( "Visited");  was for error handling now just a comment
+	}
 	score_area.value = "Score:" + score;
 }

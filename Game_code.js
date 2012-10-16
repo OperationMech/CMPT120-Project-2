@@ -15,8 +15,8 @@ var score = 0;
 function interaction_selector() {
   //Text based command selector
     var command = document.getElementById("Command_area");
-    if(command.value !== 0) {
-    
+    if(!isNaN(command.value)) {
+	  alert(command.value.slice(0,9).toLowerCase());
       if(command.value.toLowerCase() === "n") {
         change_location("north");
       } else if(command.value.toLowerCase() === "s") {
@@ -25,12 +25,12 @@ function interaction_selector() {
         change_location("east"); 
       } else if(command.value.toLowerCase() === "w") {
         change_location("west"); 
-      } else if(command.value.toLowerCase() === "interact:") { 
+      } else if(command.value.slice(0,9).toLowerCase() === "interact:") { 
         interact_location(command);
       }
 	  
     } else {
-      Print_Game("Your character scratches his head.");
+      print_Game("Your character scratches his head.");
     }
 }
 
@@ -64,10 +64,10 @@ function change_location_button(dir) {
 // No more placeholders
 function move_to_Area(newLocation) {
   // Chooses direction in location 0
-  if(current_area === 0){
+  if(current_location === 0){
   
     if( newLocation === "north") {
-	   print_Game(adjust_north_panel());
+	   print_Game(adjust_north_panel(true));
 	   increase_score_once(newLocation);
 	}else if( newLocation === "south") {
        print_Game("You ran into the south pane.");
@@ -86,30 +86,31 @@ function move_to_Area(newLocation) {
 }
 
 function adjust_north_panel(is_rammed) {
-  if(is_rammed && counter > 0) {
+  if(is_rammed && north_panel_hits_remaining > 1) {
+    is_rammed = false;
     north_panel_hits_remaining = north_panel_hits_remaining -1;
     return "You hit the panel wall, and it shifted.  The timer reads 00:0" 
 	       + north_panel_hits_remaining + ":00"
-  }else if ( counter === -1) {
+  }else if ( north_panel_hits_remaining  === -1) {
     
   }else {
-    print_Game("You have become entrapped in the panels. The announcer states " +
-	           "'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
-	           "\nThe panel rises, the floor opens, and you are released into the pit."+
-			   "\nWhile falling a crushing panel misses your forhead by 2.5 cm."+
-			   "\nYou land in the decrepit incinerator zone.  In the distance there is a device.  You slowly advance toward the device."+
-               "Upon standing above the device you notice it is a manipulator.") 
 	current_location = 4;
+	return "You have become entrapped in the panels. The announcer states " +
+	       "\n'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
+	       "\nThe panel rises, the floor opens, and you are released into the pit."+
+		   "\nWhile falling a crushing panel misses your forhead by 2.5 cm."+
+		   "\nYou land in the decrepit incinerator zone.  In the distance there is a device.  You slowly advance toward the device."+
+           "\nUpon standing above the device you notice it is a manipulator."; 
   }
 }
 
   //Function allows for location interaction
 function interact_location(command) {
     var mapArea = document.getElementById("map_location");
-	if((command.value.slice(8).toLowerCase() === "map" && !has_map) || 
-	    command.value.slice(8).toLowerCase() === "mental map") {
+	if((command.value.slice(10).toLowerCase() === "map" && !has_map) || 
+	    command.value.slice(10).toLowerCase() === "mental map") {
 	  mapArea.value = mental_mapped_location();
-	}else if(command.value.slice(8,10).toLowerCase() === "use" && 
+	}else if(command.value.slice(10,12).toLowerCase() === "use" && 
 	    command.value.split(" ")[1].toLowerCase() === locations[current_location][3]) {
 		print_Game(locations[current_location][4]);
 		north_panel_hits_remaining = -1;

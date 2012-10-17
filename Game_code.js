@@ -4,9 +4,9 @@
 var is_last_traveler = false;
 var north_panel_hits_remaining = 4;
 var has_map = false;
-var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed."], 
-                 ["hallway",false, "manipulator"], 
-				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge." ], 
+var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a door at the end."], 
+                 ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the west with an acid pit between you and it. There is also a manipulator socket." ], 
+				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test chamber 2" ], 
 				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
 				 ["chaimber2", false, "switch"]];
 var current_location = 0;
@@ -15,17 +15,16 @@ var score = 0;
 function interaction_selector() {
   //Text based command selector
     var command = document.getElementById("Command_area");
-    if(!isNaN(command.value)) {
-	  alert(command.value.slice(0,9).toLowerCase());
+    if(isNaN(command.value)) {
       if(command.value.toLowerCase() === "n") {
-        change_location("north");
+        move_to_Area("north");
       } else if(command.value.toLowerCase() === "s") {
-        change_location("south");
+        move_to_Area("south");
       } else if(command.value.toLowerCase() === "e") {
-        change_location("east"); 
+        move_to_Area("east"); 
       } else if(command.value.toLowerCase() === "w") {
-        change_location("west"); 
-      } else if(command.value.slice(0,9).toLowerCase() === "interact:") { 
+        move_to_Area("west"); 
+      } else if(command.value.split(" ")[0].toLowerCase() === "interact:") { 
         interact_location(command);
       }
 	  
@@ -82,6 +81,7 @@ function move_to_Area(newLocation) {
 	  alert( "This should never happen"); // ERROR Message
 	}
   }else {
+    change_location(newLocation)
   }
 }
 
@@ -92,32 +92,68 @@ function adjust_north_panel(is_rammed) {
     return "You hit the panel wall, and it shifted.  The timer reads 00:0" 
 	       + north_panel_hits_remaining + ":00"
   }else if ( north_panel_hits_remaining  === -1) {
-    
+    current_location = 1;
+	return "You enter the hallway. It has a large sign painted on the wall 'Get your manipulators here!' it says, with an arrow to a rack with one manipluator left.";
   }else {
 	current_location = 4;
+	score = score + 20;
 	return "You have become entrapped in the panels. The announcer states " +
 	       "\n'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
-	       "\nThe panel rises, the floor opens, and you are released into the pit."+
-		   "\nWhile falling a crushing panel misses your forhead by 2.5 cm."+
-		   "\nYou land in the decrepit incinerator zone.  In the distance there is a device.  You slowly advance toward the device."+
-           "\nUpon standing above the device you notice it is a manipulator."; 
+	       "  The panel rises, the floor opens, and you are released into the pit."+
+		   "  While falling a crushing panel misses your forhead by 2.5 cm."+
+		   "  You land on a small plaform above the facility incinerator.  In the distance there is a device.  You slowly advance toward the device."+
+           "  Upon standing above the device you notice it is a manipulator."; 
   }
 }
 
   //Function allows for location interaction
 function interact_location(command) {
     var mapArea = document.getElementById("map_location");
-	if((command.value.slice(10).toLowerCase() === "map" && !has_map) || 
-	    command.value.slice(10).toLowerCase() === "mental map") {
+	if((command.value.split(" ")[1].toLowerCase() === "map" && !has_map) || 
+	    command.value.split(" ")[1].toLowerCase() === "mental_map") {
 	  mapArea.value = mental_mapped_location();
-	}else if(command.value.slice(10,12).toLowerCase() === "use" && 
-	    command.value.split(" ")[1].toLowerCase() === locations[current_location][3]) {
-		print_Game(locations[current_location][4]);
-		north_panel_hits_remaining = -1;
-		is_last_traveler = true;
+	}else if(command.value.split(" ")[1].toLowerCase() === "use" && 
+	    command.value.split(" ")[2].toLowerCase() === locations[current_location][2]) {
+		print_Game(locations[current_location][3]);
+		if(current_location === 0){
+		  north_panel_hits_remaining = -1;
+		  is_last_traveler = true;
+		  score = score + 10;
+		} else {
+		  score = score + 5;
+		}
 	} else {
-	  print_Game("interaction commands are as follows:  interact:<command> <object> \n" + 
-	              "Valid commands are: h, ?, help, map, mental map, and use.");
+	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
+	              "Valid commands are: h, ?, help, map, mental_map, and use.");
+	}
+}
+
+//Basic mapping function shows the general idea from the character's eyes.
+function mental_mapped_location() {
+   if(current_location === 0 && north_panel_hits_remaining > 0) {
+     return "+++++++       +++++++\n"+
+            "+ x x x x+       + x x x x +\n"+
+            "+ x x x x+       + x x x x +\n"+
+            "+ x x x x~**** ~ x x x x +\n"+
+            "+ x x x x~ ^ !  ~ x x x x +\n"+
+            "+ x x x x~  ##~ x x x x +\n"+
+            "+ x x x x+~~~+ x x x x +\n"+
+            "+ x x x x x x x x x x x x +\n"+
+            "+ x x x x x x x x x x x x +\n"+
+            "+++++++++++++++++";
+	} else if(current_location === 0 && north_panel_hits_remaining < 0) {
+	 return "+++++++       +++++++\n"+
+            "+ x x x x+       + x x x x +\n"+
+            "+ x x x x+       + x x x x +\n"+
+            "+ x x x x~       ~ x x x x +\n"+
+            "+ x x x x~ ^ !  ~ x x x x +\n"+
+            "+ x x x x~  ##~ x x x x +\n"+
+            "+ x x x x+~~~+ x x x x +\n"+
+            "+ x x x x x x x x x x x x +\n"+
+            "+ x x x x x x x x x x x x +\n"+
+            "+++++++++++++++++";
+	}else {
+	  return ""; // map for undefined regions or simple spaces.
 	}
 }
 
@@ -130,7 +166,7 @@ function increase_score_once() {
    var score_area = document.getElementById("score_print");
    if(locations[current_location][1] === false) {
        locations[current_location][1] = true;
-	   score = score + 5;
+	   score = score + 10;
 	}else {
 	  //alert( "Visited");  was for error handling now just a comment
 	}

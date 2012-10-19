@@ -8,7 +8,8 @@ var locations = [["chamber0", true, "button", "The panel lifts up and rises over
                  ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the west with an acid pit between you and it. There is also a manipulator socket." ], 
 				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test chamber 2" ], 
 				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
-				 ["chaimber2", false, "switch"]];
+				 ["chaimber2", false, "switch", "The room has blah."  ],
+				 ["chaimber3", false, "socket", "The chaimber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."] ];
 var current_location = 0;
 var score = 0;
 

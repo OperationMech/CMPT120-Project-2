@@ -16,7 +16,6 @@ function interaction_selector() {
   //Text based command selector
     var command = document.getElementById("Command_area");
     if(!isNaN(command.value)) {
-	  alert(command.value.slice(0,9).toLowerCase());
       if(command.value.toLowerCase() === "n") {
         change_location("north");
       } else if(command.value.toLowerCase() === "s") {

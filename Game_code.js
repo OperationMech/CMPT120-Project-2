@@ -64,7 +64,7 @@ function change_location_button(dir) {
 function move_to_Area(newLocation) {
   // Chooses direction in location 0
   if(current_location === 0){
-  
+
     if( newLocation === "north") {
 	   print_Game(adjust_north_panel(true));
 	   increase_score_once(newLocation);
@@ -158,7 +158,30 @@ function mental_mapped_location() {
 }
 
 function change_location(dir) {
-   
+   switch (dir) {
+       case "north" :
+	        current_location = current_location + 1;
+			print_Game(locations[current_location][3]);
+			increase_score_once();
+			break;
+	   case "south" :
+	        current_location = current_location - 1;
+			print_Game(locations[current_location][3]);
+			increase_score_once();
+			break;
+	   case "east" :
+	        current_location = current_location + 2;
+			print_Game(locations[current_location][3]);
+			increase_score_once();
+			break;
+	   case "west" :
+	        current_location = current_location - 2;
+			print_Game(locations[current_location][3]);
+			increase_score_once();
+			break;
+		default :
+		    print_Game("There is an obstacle in the way.");
+    }			
 }
 
 function increase_score_once() {

@@ -26,6 +26,14 @@ h1 {
 	border-color: green;
 }
 
+#map_location {
+    color: green;
+	background-color: black;
+	font-family: serif;
+	font-size: 12pt;
+	border-color: green;
+}
+
 #score_print {
     color: green;
 	background-color: black;

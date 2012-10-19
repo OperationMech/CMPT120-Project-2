@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 <!-- Anthony Cali
-     Project 2, Game version 0.2
-     September 26, 2012
+     Project 3, Game version 0.3
+     October 17, 2012
      -->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -18,33 +18,60 @@
     <h1>
 	  Quantumplexing
 	</h1>
-	
-	<input type="button"
-           value="North"
-		   onClick="change_location_button(1);">
-		   
-	<input type="button"
-           value="South"
-		   onClick="change_location_button(2);">
-	
-	<input type="button"
-           value="East"
-		   onClick="change_location_button(3);">
-		   
-	<input type="button"
-           value="West"
-		   onClick="change_location_button(4);">
-	<br>
-    <br>
 	<textarea id="Game_area" readonly="readonly" rows="20" cols="60">You awake, startled and confused. "Welcome, INSERT NAME, to the Enrichment Center!", says an automated message.  You look around to see a few items, a button, your "bed", three glass walls, and a panel wall. A timer is above it flashing 00:00:00.  The wall seems to be mobile: it is attached to rails on the right and left sides.</textarea>
 	<br>
-        Command:
-        <input id="Command_area" type="text">
-        <input type="button"
+	<br>
+	<div>
+	  <input type="button"
+             value="North"
+		     onClick="change_location_button(1);">
+	  <br>
+	  <br>
+	  <input type="button"
+             value="East"
+		     onClick="change_location_button(3);">
+	  <input type="button"
+             value="South"
+		     onClick="change_location_button(2);">
+	  <input type="button"
+             value="West"
+		     onClick="change_location_button(4);">
+	</div>
+	<br>
+	Command:
+    <input id="Command_area" type="text">
+    <input type="button"
            value="Go"
            onClick="interaction_selector();">
 		   
-        <br>           
+    <br>
+	<div>
+	  Map:
+	  <p>
+	    Key: + = wall
+	  </p>
+	  <p>
+		     ~ = glass pane
+	  </p>
+      <p>
+		     ^ = player
+	  </p>
+      <p>
+		     * = panel
+	  </p>
+      <p>
+	         ! = interactible
+      </p>
+      <p>
+	         # = object
+      </p>
+      <p>
+	         x = inaccessible space
+      </p>	  
+	  <textarea id="map_location" readonly="readonly" rows="10" cols="15"></textarea>
+	</div>
+    <br>
+    <br>	
 	<div id="bottom">
 	  <textarea rows="1" cols="9" readonly="readonly" 
 	            id="score_print">Score:0</textarea>

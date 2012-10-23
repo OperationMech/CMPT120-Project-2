@@ -7,7 +7,7 @@ var has_map = false;
 var invintory = new Array();
 var items = 0;
 var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a door at the end."], 
-                 ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the west with an acid pit between you and it. There is also a manipulator socket." ], 
+                 ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
 				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test chamber 2" ], 
 				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
 				 ["chaimber2", false, "switch", "The room has blah."  ],
@@ -92,9 +92,36 @@ function move_to_Area(newLocation) {
 	  alert( "This should never happen"); // ERROR Message
 	}
   }else {
-    change_location(newLocation)
+    if(location_valid(newLocation)){
+      change_location(newLocation)
+	}
   }
 }
+
+function location_valid(dir) {
+   switch(current_location)
+     case 1:
+	    if(dir === "north" && items > 0 ) {
+		  return true;
+		}else {
+		  return false;
+		}
+		break;
+	 case 2:
+	    if(dir === "east" && bridge_is_lowered()) {
+		  return true;
+		}else {
+		  return false;
+		}
+		break;
+	 case 3:
+	    if(dir === "north" && items > 0){
+		  return true;
+		}else {
+		  return false;
+		}
+}
+
 
 function adjust_north_panel(is_rammed) {
   if(is_rammed && north_panel_hits_remaining > 1) {
@@ -124,6 +151,8 @@ function interact_location(command) {
 	if((command_value_split[1].toLowerCase() === "map" && !has_map) || 
 	    command_value_split[1].toLowerCase() === "mental_map") {
 	  mapArea.value = mental_mapped_location();
+	}else if(command_value_split[1].toLowerCase() === "map" && has_map) {
+	  mapArea.value = open_map();
 	}else if(command_value_split[1].toLowerCase() === "use" && 
 	       command_value_split[2].toLowerCase() === locations[current_location][2]) {
 		print_Game(locations[current_location][3]);
@@ -188,30 +217,34 @@ function mental_mapped_location() {
 }
 
 function change_location(dir) {
-   switch (dir) {
-       case "north" :
-	        current_location = current_location + 1;
-			print_Game(locations[current_location][3]);
-			increase_score_once();
-			break;
-	   case "south" :
-	        current_location = current_location - 1;
-			print_Game(locations[current_location][3]);
-			increase_score_once();
-			break;
-	   case "east" :
-	        current_location = current_location + 2;
-			print_Game(locations[current_location][3]);
-			increase_score_once();
-			break;
-	   case "west" :
-	        current_location = current_location - 2;
-			print_Game(locations[current_location][3]);
-			increase_score_once();
-			break;
+	switch (dir) {
+		case "north" :
+		   print_Game(locations[current_location][3]);
+		   current_location = current_location + 1;   
+		   update_buttons();
+		   increase_score_once();
+		   break;
+		case "south" :
+		   print_Game(locations[current_location][3]);
+		   current_location = current_location - 1;
+		   update_buttons();
+		   increase_score_once();
+		   break;
+		case "east" :
+		   print_Game(locations[current_location][3]);
+		   current_location = current_location + 2;
+		   update_buttons();
+		   increase_score_once();
+		   break;
+		case "west" :
+		   print_Game(locations[current_location][3]);
+		   current_location = current_location - 2;
+		   update_buttons();
+		   increase_score_once();
+		   break;
 		default :
-		    print_Game("There is an obstacle in the way.");
-    }			
+		   print_Game("There is an obstacle in the way.");
+	}
 }
 
 function increase_score_once() {

@@ -4,7 +4,7 @@
 var is_last_traveler = false;
 var north_panel_hits_remaining = 4;
 var has_map = false;
-var invintory = new Array();
+var invintory = new Array(0);
 var items = 0;
 var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a door at the end."], 
                  ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
@@ -98,6 +98,7 @@ function move_to_Area(newLocation) {
   }
 }
 
+// location validator (used for text directions)
 function location_valid(dir) {
    switch(current_location) {
      case 1:
@@ -120,6 +121,32 @@ function location_valid(dir) {
 		}else {
 		  return false;
 		}
+	    break;
+	 case 4:
+	    if(dir === "north") {
+		  return true;
+		}else { 
+		  return false;
+		}
+		break;
+	 case 5:
+	    if(!locations[4][1] && dir === "south") {
+		  return true;
+		}else if (dir === "east" && chamber_cleared(2) && chamber_cleared(3)) {
+		  return true;
+		}else {
+		  return false;
+		}
+		break;
+	 case 7:
+	    if(dir === "south" && chamber_cleared(4)) {
+		  return true;
+		}else {
+		  return false;
+		}
+		break;
+	  default:
+	    return false;
 	}
 }
 
@@ -171,6 +198,27 @@ function interact_location(command) {
 	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
 	              "Valid commands are: h, ?, help, map, mental_map, use and pickup.");
 	}
+}
+
+// Invintory adding function
+function add_to_invintory(item) {
+  for(i = 0; i < invintory.length; i++) {
+	if(invintory[i] === item) {
+	  if(item === "button" && item === "switch" && item === "socket" ) {
+	    print_Game("You struggle trying to acquire a " + item); 
+		return ;
+	  }else {
+        print_Game("You already have this item");
+        return ;
+	  }
+    }else {	 
+	  items = items + 1;
+	  print_Game("Acquired a "+item);
+	  invintory.push(item);
+	  score = score+15;
+	}
+  }
+  
 }
 
 //Basic mapping function shows the general idea from the character's eyes.
@@ -247,6 +295,23 @@ function change_location(dir) {
 		   print_Game("There is an obstacle in the way.");
 	}
 }
+
+function update_buttons() {
+   b_north = document.getElementById("btnNorth");
+   b_south = document.getElementById("btnNorth");
+   b_east = document.getElementById("btnNorth");
+   b_west = document.getElementById("btnNorth");
+   switch(current_location) {
+    case 1:
+	   b_north.disabled = "enabled";
+	   b_south.disabled = "disabled";
+	   b_east.disabled = "disabled";
+	   b_west.disabled = "disabled";
+	   
+	}
+	    
+}
+
 
 function increase_score_once() {
   //scoring function and logical check

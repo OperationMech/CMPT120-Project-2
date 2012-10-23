@@ -99,7 +99,7 @@ function move_to_Area(newLocation) {
 }
 
 function location_valid(dir) {
-   switch(current_location)
+   switch(current_location) {
      case 1:
 	    if(dir === "north" && items > 0 ) {
 		  return true;
@@ -120,6 +120,7 @@ function location_valid(dir) {
 		}else {
 		  return false;
 		}
+	}
 }
 
 

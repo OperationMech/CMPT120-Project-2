@@ -139,7 +139,7 @@ function interact_location(command) {
 
 //Basic mapping function shows the general idea from the character's eyes.
 function mental_mapped_location() {
-   if(current_location === 0 && north_panel_hits_remaining > 0) {
+   if(current_location === 0 && !is_last_traveler) {
      return "+++++++       +++++++\n"+
             "+ x x x x+       + x x x x +\n"+
             "+ x x x x+       + x x x x +\n"+
@@ -150,7 +150,7 @@ function mental_mapped_location() {
             "+ x x x x x x x x x x x x +\n"+
             "+ x x x x x x x x x x x x +\n"+
             "+++++++++++++++++";
-	} else if(current_location === 0 && north_panel_hits_remaining < 0) {
+	} else if(current_location === 0 && is_last_traveler) {
 	 return "+++++++       +++++++\n"+
             "+ x x x x+       + x x x x +\n"+
             "+ x x x x+       + x x x x +\n"+

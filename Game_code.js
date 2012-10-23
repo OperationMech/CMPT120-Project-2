@@ -4,6 +4,8 @@
 var is_last_traveler = false;
 var north_panel_hits_remaining = 4;
 var has_map = false;
+var invintory = new Array();
+var items = 0;
 var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a door at the end."], 
                  ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the west with an acid pit between you and it. There is also a manipulator socket." ], 
 				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test chamber 2" ], 
@@ -24,7 +26,7 @@ function interaction_selector() {
 		case "s":
 		   move_to_Area("south");
 		   break;
-        case "e"
+        case "e":
            move_to_Area("east");
            break;		   
         case "w":
@@ -34,11 +36,11 @@ function interaction_selector() {
            interact_location(command);
 		   break;
 		default :
-		   print_Game("Valid commands are 
+		   print_Game("Valid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
       }
 	  
     } else {
-      print_Game("Your character scratches his head.");
+      print_Game("Your character scratches his head.\n\nValid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
     }
 }
 
@@ -118,11 +120,12 @@ function adjust_north_panel(is_rammed) {
   //Function allows for location interaction
 function interact_location(command) {
     var mapArea = document.getElementById("map_location");
-	if((command.value.split(" ")[1].toLowerCase() === "map" && !has_map) || 
-	    command.value.split(" ")[1].toLowerCase() === "mental_map") {
+	command_value_split = command.value.split(" ");
+	if((command_value_split[1].toLowerCase() === "map" && !has_map) || 
+	    command_value_split[1].toLowerCase() === "mental_map") {
 	  mapArea.value = mental_mapped_location();
-	}else if(command.value.split(" ")[1].toLowerCase() === "use" && 
-	    command.value.split(" ")[2].toLowerCase() === locations[current_location][2]) {
+	}else if(command_value_split[1].toLowerCase() === "use" && 
+	       command_value_split[2].toLowerCase() === locations[current_location][2]) {
 		print_Game(locations[current_location][3]);
 		if(current_location === 0){
 		  north_panel_hits_remaining = -1;
@@ -131,9 +134,12 @@ function interact_location(command) {
 		} else {
 		  score = score + 5;
 		}
+	}else if(command_value_split[1].toLowerCase() === "pickup" &&
+	       command_value_split[2].toLowerCase() === locations[current_location][2]) {
+		add_to_invintory(locations[current_location][2]);
 	} else {
 	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
-	              "Valid commands are: h, ?, help, map, mental_map, and use.");
+	              "Valid commands are: h, ?, help, map, mental_map, use and pickup.");
 	}
 }
 

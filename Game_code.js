@@ -17,16 +17,24 @@ function interaction_selector() {
   //Text based command selector
     var command = document.getElementById("Command_area");
     if(isNaN(command.value)) {
-      if(command.value.toLowerCase() === "n") {
-        move_to_Area("north");
-      } else if(command.value.toLowerCase() === "s") {
-        move_to_Area("south");
-      } else if(command.value.toLowerCase() === "e") {
-        move_to_Area("east"); 
-      } else if(command.value.toLowerCase() === "w") {
-        move_to_Area("west"); 
-      } else if(command.value.split(" ")[0].toLowerCase() === "interact:") { 
-        interact_location(command);
+	  switch(command.value.split(" ")[0].toLowerCase()) {
+        case "n":
+		   move_to_Area("north");
+		   break;
+		case "s":
+		   move_to_Area("south");
+		   break;
+        case "e"
+           move_to_Area("east");
+           break;		   
+        case "w":
+		   move_to_Area("west"); 
+		   break;
+        case "interact:": 
+           interact_location(command);
+		   break;
+		default :
+		   print_Game("Valid commands are 
       }
 	  
     } else {
@@ -154,7 +162,22 @@ function mental_mapped_location() {
             "+ x x x x x x x x x x x x +\n"+
             "+++++++++++++++++";
 	}else {
-	  return ""; // map for undefined regions or simple spaces.
+	   switch (current_location) {
+	     case 2:
+		    return "";
+			break;
+		 case 4:
+		    return "";
+		    break;
+		 case 5:
+		    return "";
+			break;
+		 case 6:
+		    return "";
+			break;
+		 default : 
+			return ""; // map for undefined regions or simple spaces.
+		}
 	}
 }
 

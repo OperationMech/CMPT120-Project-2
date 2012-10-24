@@ -2,16 +2,20 @@
 
 //Global variables
 var is_last_traveler = false;
+var is_revealed = false;
 var north_panel_hits_remaining = 4;
 var has_map = false;
-var invintory = new Array(0);
+var inventory = [];
 var items = 0;
+var chamber_is_cleared = new Array("", "", false , "", false, false, "" , false)
 var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a door at the end."], 
                  ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
-				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test chamber 2" ], 
+				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test Chamber 2 that has a switch and seems to be too open. No obstacles are immeadiately visable." ], 
 				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
-				 ["chaimber2", false, "switch", "The room has blah."  ],
-				 ["chaimber3", false, "socket", "The chaimber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."] ];
+				 ["chamber2", false, "switch", "You enter Chamber 3. The chaimber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."  ],
+				 ["chamber3", false, "socket", "The announcer states 'Well done test subject. You have almost reached your current goal.' You proceed into chamber 4 which has lasers east, mirrors aligned in a pattern, a socket, and a massive security door."],
+				 ["chamber5", false, "uploader", "You feel a strange rush."],
+				 ["chamber4",false, "socket","The large security door opens.  A 'teleporter' room is revealed."]];
 var current_location = 0;
 var score = 0;
 
@@ -71,7 +75,7 @@ function change_location_button(dir) {
 	}
 }
 
-// No more placeholders
+// special case handler
 function move_to_Area(newLocation) {
   // Chooses direction in location 0
   if(current_location === 0){
@@ -94,7 +98,8 @@ function move_to_Area(newLocation) {
   }else {
     if(location_valid(newLocation)){
       change_location(newLocation)
-	}
+	}else {
+	} // do nothing
   }
 }
 
@@ -109,7 +114,7 @@ function location_valid(dir) {
 		}
 		break;
 	 case 2:
-	    if(dir === "east" && bridge_is_lowered()) {
+	    if(dir === "east" && chamber_is_cleared[2]) {
 		  return true;
 		}else {
 		  return false;
@@ -123,7 +128,7 @@ function location_valid(dir) {
 		}
 	    break;
 	 case 4:
-	    if(dir === "north") {
+	    if(dir === "north" && chamber_is_cleared[4] ) {
 		  return true;
 		}else { 
 		  return false;
@@ -132,25 +137,35 @@ function location_valid(dir) {
 	 case 5:
 	    if(!locations[4][1] && dir === "south") {
 		  return true;
-		}else if (dir === "east" && chamber_cleared(2) && chamber_cleared(3)) {
+		}else if (dir === "east" && chamber_is_cleared[4] && chamber_is_cleared[5]) {
 		  return true;
-		}else {
+		}else if (dir === "north" && !is_revealed) {
+		  hidden_room();
 		  return false;
-		}
+		}else 
+		  return false;
 		break;
 	 case 7:
-	    if(dir === "south" && chamber_cleared(4)) {
+	    if(dir === "south" && chamber_is_cleared[7]) {
 		  return true;
 		}else {
 		  return false;
 		}
 		break;
-	  default:
-	    return false;
 	}
 }
 
+// HL refrence
+function hidden_room() {
+  print_Game("You search the north wall to find a slightly ajar panel.  You proceed to pull it open." +
+           " You find another maintainence area; however, this one has writing on the wall." + 
+		   " It says 'there is no pi', 'I could only try',  'learn another lie.' " +
+           " You also notice a crowbar behind a welded vent... which has hinges. " + 
+           " You return to the testing area shortly afterward, the panel slamms shut.");
+    is_revealed = true;
+}		   
 
+// alternate path split
 function adjust_north_panel(is_rammed) {
   if(is_rammed && north_panel_hits_remaining > 1) {
     is_rammed = false;
@@ -159,10 +174,12 @@ function adjust_north_panel(is_rammed) {
 	       + north_panel_hits_remaining + ":00"
   }else if ( north_panel_hits_remaining  === -1) {
     current_location = 1;
+	update_buttons();
 	return "You enter the hallway. It has a large sign painted on the wall 'Get your manipulators here!' it says, with an arrow to a rack with one manipluator left.";
   }else {
 	current_location = 4;
 	score = score + 20;
+	update_buttons();
 	return "You have become entrapped in the panels. The announcer states " +
 	       "\n'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
 	       "  The panel rises, the floor opens, and you are released into the pit."+
@@ -183,17 +200,22 @@ function interact_location(command) {
 	  mapArea.value = open_map();
 	}else if(command_value_split[1].toLowerCase() === "use" && 
 	       command_value_split[2].toLowerCase() === locations[current_location][2]) {
-		print_Game(locations[current_location][3]);
 		if(current_location === 0){
 		  north_panel_hits_remaining = -1;
 		  is_last_traveler = true;
 		  score = score + 10;
+		  increase_score_once();
 		} else {
 		  score = score + 5;
+		  increase_score_once();
+		  if(current_location > 1 && current_location !== 3) {
+		    chamber_is_cleared[current_location] = true;
+			update_buttons();
+		  }
 		}
 	}else if(command_value_split[1].toLowerCase() === "pickup" &&
 	       command_value_split[2].toLowerCase() === locations[current_location][2]) {
-		add_to_invintory(locations[current_location][2]);
+		add_to_inventory(command_value_split[2].toLowerCase());
 	} else {
 	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
 	              "Valid commands are: h, ?, help, map, mental_map, use and pickup.");
@@ -201,24 +223,33 @@ function interact_location(command) {
 }
 
 // Invintory adding function
-function add_to_invintory(item) {
-  for(i = 0; i < invintory.length; i++) {
-	if(invintory[i] === item) {
-	  if(item === "button" && item === "switch" && item === "socket" ) {
-	    print_Game("You struggle trying to acquire a " + item); 
-		return ;
-	  }else {
-        print_Game("You already have this item");
-        return ;
-	  }
-    }else {	 
-	  items = items + 1;
-	  print_Game("Acquired a "+item);
-	  invintory.push(item);
-	  score = score+15;
-	}
+function add_to_inventory(item) {
+  // special empty case
+  if(item !== "button" && item !== "switch" && item !== "socket" ){
+    if(items === 0) {	 
+	    items = items + 1;
+	    print_Game("Acquired a "+ item);
+	    inventory.push(item);
+	    score = score + 15;
+		increase_score_once();
+    }else {
+    // general case
+      for(i = 0; i < inventory.length; i++) {
+	    if(inventory[i] === item) {
+		  print_Game("You already have this item");
+          return ;
+        }else {	 
+	      items = items + 1;
+	      print_Game("Acquired a "+ item);
+	      inventory.push(item);
+	      score = score + 15;
+		  increase_score_once();
+	    }
+      }
+    }
+  }else {
+    print_Game("You struggled trying to pickup a " + item +".");
   }
-  
 }
 
 //Basic mapping function shows the general idea from the character's eyes.
@@ -248,16 +279,52 @@ function mental_mapped_location() {
 	}else {
 	   switch (current_location) {
 	     case 2:
-		    return "";
+		    return "+++++++++++++++++\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+  !     ^        x x x x +\n"+
+                   "+                 x x x x +\n"+
+                   "+++++++       +++++++";
 			break;
 		 case 4:
-		    return "";
+		    return "+++++++++++++++++\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+  !     ^        x x x x +\n"+
+                   "+                 x x x x +\n"+
+                   "+++++++       +++++++";;
 		    break;
 		 case 5:
-		    return "";
+		    return "++++not actual map++++\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+  !     ^        x x x x +\n"+
+                   "+                 x x x x +\n"+
+                   "+++++++       +++++++";;
 			break;
-		 case 6:
-		    return "";
+		 case 7:
+		    return "++++not actual map+++++\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+ x x x x x x x x x x x x +\n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+                 x x x x  \n"+
+                   "+  !     ^        x x x x +\n"+
+                   "+                 x x x x +\n"+
+                   "+++++++       +++++++";;
 			break;
 		 default : 
 			return ""; // map for undefined regions or simple spaces.
@@ -297,19 +364,52 @@ function change_location(dir) {
 }
 
 function update_buttons() {
-   b_north = document.getElementById("btnNorth");
-   b_south = document.getElementById("btnNorth");
-   b_east = document.getElementById("btnNorth");
-   b_west = document.getElementById("btnNorth");
+   var b_north = document.getElementById("btnNorth");
+   var b_south = document.getElementById("btnSouth");
+   var b_east = document.getElementById("btnEast");
+   var b_west = document.getElementById("btnWest");
    switch(current_location) {
     case 1:
-	   b_north.disabled = "enabled";
+	   b_north.disabled = "";
 	   b_south.disabled = "disabled";
 	   b_east.disabled = "disabled";
 	   b_west.disabled = "disabled";
-	   
-	}
-	    
+	   break;
+	case 2:
+       b_north.disabled = "disabled";
+	   b_south.disabled = "disabled";
+	   b_east.disabled = "";
+	   b_west.disabled = "disabled";
+	   break;
+	case 3:
+       b_north.disabled = "disabled";
+	   b_south.disabled = "disabled";
+	   b_east.disabled = "";
+	   b_west.disabled = "disabled";
+	   break;
+	case 4:
+       b_north.disabled = "";
+	   b_south.disabled = "disabled";
+	   b_east.disabled = "disabled";
+	   b_west.disabled = "disabled";
+	   break;
+	case 5:
+	   b_north.disabled = "";
+	   if(chamber_is_cleared[4]) {
+	     b_south.disabled = "disabled";
+	   }else {
+	     b_south.disabled = "";
+	   }
+	   b_east.disabled = "";
+	   b_west.disabled = "disabled";
+	   break;
+	case 7:
+	   b_north.disabled = "disabled";
+	   b_south.disabled = "";
+	   b_east.disabled = "disabled";
+	   b_west.disabled = "disabled";
+	   break;
+	}   
 }
 
 
@@ -320,7 +420,8 @@ function increase_score_once() {
        locations[current_location][1] = true;
 	   score = score + 10;
 	}else {
-	  //alert( "Visited");  was for error handling now just a comment
+	  //updates score
+	  score_area.value = "Score:" + score;
 	}
 	score_area.value = "Score:" + score;
 }

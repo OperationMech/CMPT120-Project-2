@@ -1,5 +1,5 @@
 README
 
 Code by Anthony Cali.
-Version 0.4
+Version 0.5
 Quantumplexing original title. 

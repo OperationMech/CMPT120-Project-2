@@ -208,9 +208,14 @@ function interact_location(command) {
 		} else {
 		  score = score + 5;
 		  increase_score_once();
-		  if(current_location > 1 && current_location !== 3) {
+		  if(current_location > 1 && (current_location !== 3 && current_location !== 6) {
 		    chamber_is_cleared[current_location] = true;
 			update_buttons();
+		  }
+		  if( command_value_split[2].toLowerCase() === "uploader") {
+		    print_Game(locations[current_location][3]);
+			// adventure_land();  future sub game
+			// is_virtualized = true; post sub game
 		  }
 		}
 	}else if(command_value_split[1].toLowerCase() === "pickup" &&

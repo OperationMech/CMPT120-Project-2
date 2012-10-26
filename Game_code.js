@@ -193,7 +193,7 @@ function adjust_north_panel(is_rammed) {
 function interact_location(command) {
     var mapArea = document.getElementById("map_location");
 	command_value_split = command.value.split(" ");
-	if(command_value_split[1]){
+	if(!command_value_split[1]){
 	  // else code
 	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
 	              "Valid commands are: h, ?, help, map, mental_map, use and pickup.");
@@ -420,7 +420,6 @@ function update_buttons() {
 	   break;
 	}   
 }
-
 
 function increase_score_once() {
   //scoring function and logical check

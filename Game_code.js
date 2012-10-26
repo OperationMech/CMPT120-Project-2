@@ -7,9 +7,9 @@ var north_panel_hits_remaining = 4;
 var has_map = false;
 var inventory = [];
 var items = 0;
-var chamber_is_cleared = new Array("", "", false , "", false, false, "" , false)
-var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a door at the end."], 
-                 ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chaimber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
+var chamber_is_cleared = new Array("", "", false , "", false, false, "" , false);
+var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a closed door at the end."], 
+                 ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chamber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
 				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test Chamber 2 that has a switch and seems to be too open. No obstacles are immeadiately visable." ], 
 				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
 				 ["chamber2", false, "switch", "You enter Chamber 3. The chaimber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."  ],
@@ -193,7 +193,11 @@ function adjust_north_panel(is_rammed) {
 function interact_location(command) {
     var mapArea = document.getElementById("map_location");
 	command_value_split = command.value.split(" ");
-	if((command_value_split[1].toLowerCase() === "map" && !has_map) || 
+	if(command_value_split[1]){
+	  // else code
+	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
+	              "Valid commands are: h, ?, help, map, mental_map, use and pickup.");
+	}else if((command_value_split[1].toLowerCase() === "map" && !has_map) || 
 	    command_value_split[1].toLowerCase() === "mental_map") {
 	  mapArea.value = mental_mapped_location();
 	}else if(command_value_split[1].toLowerCase() === "map" && has_map) {
@@ -208,7 +212,7 @@ function interact_location(command) {
 		} else {
 		  score = score + 5;
 		  increase_score_once();
-		  if(current_location > 1 && (current_location !== 3 && current_location !== 6) {
+		  if(current_location > 1 && (current_location !== 3 && current_location !== 6)) {
 		    chamber_is_cleared[current_location] = true;
 			update_buttons();
 		  }
@@ -262,9 +266,9 @@ function mental_mapped_location() {
    if(current_location === 0 && !is_last_traveler) {
      return "+++++++       +++++++\n"+
             "+ x x x x+       + x x x x +\n"+
-            "+ x x x x+       + x x x x +\n"+
-            "+ x x x x~**** ~ x x x x +\n"+
-            "+ x x x x~ ^ !  ~ x x x x +\n"+
+            "+ x x x x+*** + x x x x +\n"+
+            "+ x x x x~      ~ x x x x +\n"+
+            "+ x x x x~ ^ ! ~ x x x x +\n"+
             "+ x x x x~  ##~ x x x x +\n"+
             "+ x x x x+~~~+ x x x x +\n"+
             "+ x x x x x x x x x x x x +\n"+
@@ -288,11 +292,11 @@ function mental_mapped_location() {
                    "+ x x x x x x x x x x x x +\n"+
                    "+ x x x x x x x x x x x x +\n"+
                    "+ x x x x x x x x x x x x +\n"+
-                   "+                 x x x x  \n"+
-                   "+                 x x x x  \n"+
-                   "+                 x x x x  \n"+
-                   "+  !     ^        x x x x +\n"+
-                   "+                 x x x x +\n"+
+                   "+                   x x x x  \n"+
+                   "+                   x x x x  \n"+
+                   "+                   x x x x  \n"+
+                   "+  !     ^          x x x x +\n"+
+                   "+                   x x x x +\n"+
                    "+++++++       +++++++";
 			break;
 		 case 4:
@@ -300,11 +304,11 @@ function mental_mapped_location() {
                    "+ x x x x x x x x x x x x +\n"+
                    "+ x x x x x x x x x x x x +\n"+
                    "+ x x x x x x x x x x x x +\n"+
-                   "+                 x x x x  \n"+
-                   "+                 x x x x  \n"+
-                   "+                 x x x x  \n"+
-                   "+  !     ^        x x x x +\n"+
-                   "+                 x x x x +\n"+
+                   "+                   x x x x  \n"+
+                   "+                   x x x x  \n"+
+                   "+                   x x x x  \n"+
+                   "+  !     ^          x x x x +\n"+
+                   "+                   x x x x +\n"+
                    "+++++++       +++++++";;
 		    break;
 		 case 5:
@@ -312,11 +316,11 @@ function mental_mapped_location() {
                    "+ x x x x x x x x x x x x +\n"+
                    "+ x x x x x x x x x x x x +\n"+
                    "+ x x x x x x x x x x x x +\n"+
-                   "+                 x x x x  \n"+
-                   "+                 x x x x  \n"+
-                   "+                 x x x x  \n"+
-                   "+  !     ^        x x x x +\n"+
-                   "+                 x x x x +\n"+
+                   "+                    x x x x  \n"+
+                   "+                    x x x x  \n"+
+                   "+                    x x x x  \n"+
+                   "+  !     ^           x x x x +\n"+
+                   "+                    x x x x +\n"+
                    "+++++++       +++++++";;
 			break;
 		 case 7:

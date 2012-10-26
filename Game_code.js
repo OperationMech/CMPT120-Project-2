@@ -208,6 +208,7 @@ function interact_location(command) {
 		  north_panel_hits_remaining = -1;
 		  is_last_traveler = true;
 		  score = score + 10;
+		  print_Game(locations[current_location][3]);
 		  increase_score_once();
 		} else {
 		  score = score + 5;

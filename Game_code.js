@@ -1,5 +1,5 @@
 // Javascript
-
+// Quantumplexing start code
 //Global variables
 var is_last_traveler = false;
 var is_revealed = false;
@@ -17,7 +17,16 @@ var locations = [["chamber0", true, "button", "The panel lifts up and rises over
 				 ["chamber5", false, "uploader", "You feel a strange rush."],
 				 ["chamber4",false, "socket","The large security door opens.  A 'teleporter' room is revealed."]];
 var current_location = 0;
+var moves = 0;
 var score = 0;
+
+function initializeGame() {
+  // game init function - displays initial text
+  print_Game("You awake, startled and confused. \"Welcome, INSERT NAME, to the Enrichment Center!\"," + 
+         "says an automated message.  You look around to see a few items, a button, your \"bed\", " + 
+		 "three glass walls, and a panel wall. A timer is above it flashing 00:00:00.  " + 
+		 "The wall seems to be mobile: it is attached to rails on the right and left sides.");
+}
 
 function interaction_selector() {
   //Text based command selector
@@ -153,13 +162,14 @@ function location_valid(dir) {
 		}
 		break;
 	}
+	
 }
 
-// HL refrence
+// HL and portal refrence 
 function hidden_room() {
   print_Game("You search the north wall to find a slightly ajar panel.  You proceed to pull it open." +
            " You find another maintainence area; however, this one has writing on the wall." + 
-		   " It says 'there is no pi', 'I could only try',  'learn another lie.' " +
+		   " It says \"there is no pi\", \"I could only try\",  \"learn another lie.\" " +
            " You also notice a crowbar behind a welded vent... which has hinges. " + 
            " You return to the testing area shortly afterward, the panel slamms shut.");
     is_revealed = true;
@@ -369,7 +379,7 @@ function change_location(dir) {
 		   increase_score_once();
 		   break;
 		default :
-		   print_Game("There is an obstacle in the way.");
+		   alert("This should not happen as well - notice location movement error"); // Error message for a "never should happen"
 	}
 }
 
@@ -428,6 +438,7 @@ function increase_score_once() {
    if(locations[current_location][1] === false) {
        locations[current_location][1] = true;
 	   score = score + 10;
+	   moves = moves + 1;
 	}else {
 	  //updates score
 	  score_area.value = "Score:" + score;

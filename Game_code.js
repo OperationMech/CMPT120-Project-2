@@ -60,7 +60,8 @@ function interaction_selector() {
 //  Simple function to update the text area
 function print_Game(message) {
    game_area = document.getElementById("Game_area");
-   game_area.value = message + "\n\n" + game_area.value;
+   game_area.value = game_area.value + "\n\n" + message ;
+   game_area.scrollTop = textArea.scrollHeight;
 }
 
 function change_location_button(dir) {

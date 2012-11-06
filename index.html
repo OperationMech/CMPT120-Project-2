@@ -11,8 +11,10 @@
 	<link href="page_general.css" rel="stylesheet" type="text/css">
 	<style>
 	</style>
-	<script src="Game_code.js">
-	</script>
+	<script type="text/Javascript" src="Game_logic.js"></script>
+	<script type="text/Javascript" src="locations.js"></script>
+	<script type="text/Javascript" src="display.js"></script> 
+	
   </head>
   <body onload = "initializeGame();">
     <h1>
@@ -45,29 +47,14 @@
 	</div>
 	<br>
 	<div>
-	  Map:
-	  <p>
-	    Key: + = wall
-	  </p>
-	  <p>
-		     ~ = glass pane
-	  </p>
-      <p>
-		     ^ = player
-	  </p>
-      <p>
-		     * = panel
-	  </p>
-      <p>
-	         ! = interactible
-      </p>
-      <p>
-	         # = object
-      </p>
-      <p>
-	         x = inaccessible space
-      </p>	  
+	  Key:
+	  <br>
+	  <textarea id="map_key" readonly="readonly" rows="10" cols="28"></textarea>
+	  <br>
+      Local map:&nbsp &nbsp &nbsp &nbsp &nbsp Map:
+      <br>	  
 	  <textarea id="map_location" readonly="readonly" rows="10" cols="20"></textarea>
+	  <textarea id="main_map" readonly="readonly" rows="10" cols="20"></textarea>
 	</div>
     <br>
     Command:

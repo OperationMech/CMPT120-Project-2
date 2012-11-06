@@ -1,6 +1,7 @@
-// Javascript
+// Javascript Game_logic.js
 // Quantumplexing start code
 //Global variables
+var isUninitialized = true;
 var is_last_traveler = false;
 var is_revealed = false;
 var north_panel_hits_remaining = 4;
@@ -8,30 +9,14 @@ var has_map = false;
 var inventory = [];
 var items = 0;
 var chamber_is_cleared = new Array("", "", false , "", false, false, "" , false);
-var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a closed door at the end."], 
-                 ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chamber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
-				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test Chamber 2 that has a switch and seems to be too open. No obstacles are immeadiately visable." ], 
-				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
-				 ["chamber2", false, "switch", "You enter Chamber 3. The chaimber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."  ],
-				 ["chamber3", false, "socket", "The announcer states 'Well done test subject. You have almost reached your current goal.' You proceed into chamber 4 which has lasers east, mirrors aligned in a pattern, a socket, and a massive security door."],
-				 ["chamber5", false, "uploader", "You feel a strange rush."],
-				 ["chamber4",false, "socket","The large security door opens.  A 'teleporter' room is revealed."]];
 var current_location = 0;
 var moves = 0;
 var score = 0;
 
-function initializeGame() {
-  // game init function - displays initial text
-  print_Game("You awake, startled and confused. \"Welcome, INSERT NAME, to the Enrichment Center!\"," + 
-         "says an automated message.  You look around to see a few items, a button, your \"bed\", " + 
-		 "three glass walls, and a panel wall. A timer is above it flashing 00:00:00.  " + 
-		 "The wall seems to be mobile: it is attached to rails on the right and left sides.");
-}
-
 function interaction_selector() {
   //Text based command selector
     var command = document.getElementById("Command_area");
-    if(isNaN(command.value)) {
+    if(typeof(command.value) === 'string') {
 	  switch(command.value.split(" ")[0].toLowerCase()) {
         case "n":
 		   move_to_Area("north");
@@ -55,13 +40,6 @@ function interaction_selector() {
     } else {
       print_Game("Your character scratches his head.\n\nValid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
     }
-}
-
-//  Simple function to update the text area
-function print_Game(message) {
-   game_area = document.getElementById("Game_area");
-   game_area.value = game_area.value + "\n\n" + message ;
-   game_area.scrollTop = textArea.scrollHeight;
 }
 
 function change_location_button(dir) {
@@ -90,20 +68,26 @@ function move_to_Area(newLocation) {
   // Chooses direction in location 0
   if(current_location === 0){
 
-    if( newLocation === "north") {
+    switch (newLocation) {
+	case "north": 
 	   print_Game(adjust_north_panel(true));
 	   increase_score_once(newLocation);
-	}else if( newLocation === "south") {
+	   break;
+	case "south":
        print_Game("You ran into the south pane.");
 	   increase_score_once(newLocation);
-	}else if( newLocation === "east") {
+	   break;
+	case "east":
        print_Game("You walked into the east pane.");
 	   increase_score_once(newLocation);
-	}else if( newLocation === "west") {
+	   break;
+	case "west": 
        print_Game("You tapped the west pane.");
 	   increase_score_once(newLocation);
-	}else {
+	   break;
+	default:
 	  alert( "This should never happen"); // ERROR Message
+	  break;
 	}
   }else {
     if(location_valid(newLocation)){
@@ -166,16 +150,6 @@ function location_valid(dir) {
 	
 }
 
-// HL and portal refrence 
-function hidden_room() {
-  print_Game("You search the north wall to find a slightly ajar panel.  You proceed to pull it open." +
-           " You find another maintainence area; however, this one has writing on the wall." + 
-		   " It says \"there is no pi\", \"I could only try\",  \"learn another lie.\" " +
-           " You also notice a crowbar behind a welded vent... which has hinges. " + 
-           " You return to the testing area shortly afterward, the panel slamms shut.");
-    is_revealed = true;
-}		   
-
 // alternate path split
 function adjust_north_panel(is_rammed) {
   if(is_rammed && north_panel_hits_remaining > 1) {
@@ -191,6 +165,7 @@ function adjust_north_panel(is_rammed) {
 	current_location = 4;
 	score = score + 20;
 	update_buttons();
+	moves = moves + 1;
 	return "You have become entrapped in the panels. The announcer states " +
 	       "\n'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
 	       "  The panel rises, the floor opens, and you are released into the pit."+
@@ -357,25 +332,29 @@ function change_location(dir) {
 	switch (dir) {
 		case "north" :
 		   print_Game(locations[current_location][3]);
-		   current_location = current_location + 1;   
+		   current_location = current_location + 1;  
+           moves = moves + 1;		   
 		   update_buttons();
 		   increase_score_once();
 		   break;
 		case "south" :
 		   print_Game(locations[current_location][3]);
 		   current_location = current_location - 1;
+		   moves = moves + 1;
 		   update_buttons();
 		   increase_score_once();
 		   break;
 		case "east" :
 		   print_Game(locations[current_location][3]);
 		   current_location = current_location + 2;
+		   moves = moves + 1;
 		   update_buttons();
 		   increase_score_once();
 		   break;
 		case "west" :
 		   print_Game(locations[current_location][3]);
 		   current_location = current_location - 2;
+		   moves = moves + 1;
 		   update_buttons();
 		   increase_score_once();
 		   break;
@@ -391,44 +370,44 @@ function update_buttons() {
    var b_west = document.getElementById("btnWest");
    switch(current_location) {
     case 1:
-	   b_north.disabled = "";
-	   b_south.disabled = "disabled";
-	   b_east.disabled = "disabled";
-	   b_west.disabled = "disabled";
+	   b_north.disabled = false;
+	   b_south.disabled = true;
+	   b_east.disabled = true;
+	   b_west.disabled = true;
 	   break;
 	case 2:
-       b_north.disabled = "disabled";
-	   b_south.disabled = "disabled";
-	   b_east.disabled = "";
-	   b_west.disabled = "disabled";
+       b_north.disabled = true;
+	   b_south.disabled = true;
+	   b_east.disabled = false;
+	   b_west.disabled = true;
 	   break;
 	case 3:
-       b_north.disabled = "disabled";
-	   b_south.disabled = "disabled";
-	   b_east.disabled = "";
-	   b_west.disabled = "disabled";
+       b_north.disabled = true;
+	   b_south.disabled = true;
+	   b_east.disabled = false;
+	   b_west.disabled = true;
 	   break;
 	case 4:
-       b_north.disabled = "";
-	   b_south.disabled = "disabled";
-	   b_east.disabled = "disabled";
-	   b_west.disabled = "disabled";
+       b_north.disabled = false;
+	   b_south.disabled = true;
+	   b_east.disabled = true;
+	   b_west.disabled = true;
 	   break;
 	case 5:
-	   b_north.disabled = "";
+	   b_north.disabled = false;
 	   if(chamber_is_cleared[4]) {
-	     b_south.disabled = "disabled";
+	     b_south.disabled = true;
 	   }else {
-	     b_south.disabled = "";
+	     b_south.disabled = false;
 	   }
-	   b_east.disabled = "";
-	   b_west.disabled = "disabled";
+	   b_east.disabled = false;
+	   b_west.disabled = true;
 	   break;
 	case 7:
-	   b_north.disabled = "disabled";
-	   b_south.disabled = "";
-	   b_east.disabled = "disabled";
-	   b_west.disabled = "disabled";
+	   b_north.disabled = true;
+	   b_south.disabled = false;
+	   b_east.disabled = true;
+	   b_west.disabled = true;
 	   break;
 	}   
 }

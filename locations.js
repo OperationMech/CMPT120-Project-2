@@ -4,7 +4,7 @@ var locations = [["chamber0", true, "button", "The panel lifts up and rises over
                  ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chamber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
 				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test Chamber 2 that has a switch and seems to be too open. No obstacles are immeadiately visable." ], 
 				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
-				 ["chamber2", false, "switch", "You enter Chamber 3. The chaimber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."  ],
+				 ["chamber2", false, "switch", "You enter Chamber 3. The chamber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."  ],
 				 ["chamber3", false, "socket", "The announcer states 'Well done test subject. You have almost reached your current goal.' You proceed into chamber 4 which has lasers east, mirrors aligned in a pattern, a socket, and a massive security door."],
 				 ["chamber5", false, "uploader", "You feel a strange rush."],
 				 ["chamber4",false, "socket","The large security door opens.  A 'teleporter' room is revealed."]];
@@ -19,6 +19,7 @@ function hidden_room() {
     is_revealed = true;
 }	
 
+// location prototype
 function Location (_name, _interactible) {
   this.name = _name;
   this.visited = false;

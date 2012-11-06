@@ -4,6 +4,7 @@
 var isUninitialized = true;
 var is_last_traveler = false;
 var is_revealed = false;
+var is_virtualized = false;
 var north_panel_hits_remaining = 4;
 var has_map = false;
 var inventory = [];
@@ -13,33 +14,40 @@ var current_location = 0;
 var moves = 0;
 var score = 0;
 
+// I personally consider interaction / movement commands to be game logic
+//    not independent seperate "objects" 
+
 function interaction_selector() {
   //Text based command selector
     var command = document.getElementById("Command_area");
-    if(typeof(command.value) === 'string') {
-	  switch(command.value.split(" ")[0].toLowerCase()) {
-        case "n":
-		   move_to_Area("north");
-		   break;
-		case "s":
-		   move_to_Area("south");
-		   break;
-        case "e":
-           move_to_Area("east");
-           break;		   
-        case "w":
-		   move_to_Area("west"); 
-		   break;
-        case "interact:": 
-           interact_location(command);
-		   break;
-		default :
-		   print_Game("Valid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
-      }
-	  
-    } else {
-      print_Game("Your character scratches his head.\n\nValid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
-    }
+	if(!is_virtualized){
+		if(typeof(command.value) === 'string') {
+		  switch(command.value.split(" ")[0].toLowerCase()) {
+			case "n":
+			   move_to_Area("north");
+			   break;
+			case "s":
+			   move_to_Area("south");
+			   break;
+			case "e":
+			   move_to_Area("east");
+			   break;		   
+			case "w":
+			   move_to_Area("west"); 
+			   break;
+			case "interact:": 
+			   interact_location(command);
+			   break;
+			default :
+			   print_Game("Valid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
+		  }
+		  
+		} else {
+		  print_Game("Your character scratches his head.\n\nValid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
+		}
+	} else {
+	   // adventure_control(command.value); future adventureland contol handler - acts differently
+	}
 }
 
 function change_location_button(dir) {
@@ -162,7 +170,7 @@ function adjust_north_panel(is_rammed) {
 	update_buttons();
 	return "You enter the hallway. It has a large sign painted on the wall 'Get your manipulators here!' it says, with an arrow to a rack with one manipluator left.";
   }else {
-	current_location = 4;
+	current_location = 3;
 	score = score + 20;
 	update_buttons();
 	moves = moves + 1;
@@ -177,17 +185,18 @@ function adjust_north_panel(is_rammed) {
 
   //Function allows for location interaction
 function interact_location(command) {
-    var mapArea = document.getElementById("map_location");
 	command_value_split = command.value.split(" ");
 	if(!command_value_split[1]){
 	  // else code
 	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
-	              "Valid commands are: h, ?, help, map, mental_map, use and pickup.");
+	              "Valid commands are: h, ?, help, map, mental_map, use , inventory, and pickup.");
 	}else if((command_value_split[1].toLowerCase() === "map" && !has_map) || 
 	    command_value_split[1].toLowerCase() === "mental_map") {
-	  mapArea.value = mental_mapped_location();
+	    make_mental_map(mental_mapped_location());
 	}else if(command_value_split[1].toLowerCase() === "map" && has_map) {
-	  mapArea.value = open_map();
+	   open_map();
+	}else if(command_value_split[1].toLowerCase() === "inventory") {
+	  display_inventory();
 	}else if(command_value_split[1].toLowerCase() === "use" && 
 	       command_value_split[2].toLowerCase() === locations[current_location][2]) {
 		if(current_location === 0){
@@ -205,8 +214,8 @@ function interact_location(command) {
 		  }
 		  if( command_value_split[2].toLowerCase() === "uploader") {
 		    print_Game(locations[current_location][3]);
-			// adventure_land();  future sub game
-			// is_virtualized = true; post sub game
+			// init_adventure_land();  future sub game
+			is_virtualized = true;
 		  }
 		}
 	}else if(command_value_split[1].toLowerCase() === "pickup" &&
@@ -382,16 +391,16 @@ function update_buttons() {
 	   b_west.disabled = true;
 	   break;
 	case 3:
-       b_north.disabled = true;
-	   b_south.disabled = true;
-	   b_east.disabled = false;
-	   b_west.disabled = true;
-	   break;
-	case 4:
        b_north.disabled = false;
 	   b_south.disabled = true;
 	   b_east.disabled = true;
 	   b_west.disabled = true;
+	   break;
+	case 4:
+       b_north.disabled = true;
+	   b_south.disabled = true;
+	   b_east.disabled = true;
+	   b_west.disabled = false;
 	   break;
 	case 5:
 	   b_north.disabled = false;

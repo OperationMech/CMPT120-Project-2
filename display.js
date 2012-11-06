@@ -22,9 +22,28 @@ function print_Game(message) {
    if(isUninitialized) {
      game_area.value = "";
      game_area.value = message;
-	 
 	} else {
 	 game_area.value = game_area.value + "\n\n" + message ;
-     game_area.scrollBottom = textArea.scrollHeight;
+     game_area.scrollTop = game_area.scrollHeight;
 	}
+}
+
+// Simple invintory listing function
+function display_inventory() {
+  var list = "";
+  if(inventory.length === 0){
+    print_Game("No items in inventory")
+  } else {
+    for(var i = 0; i < inventory.length - 1; i++) {
+	  list = list + inventory[i] + ","
+	}
+	list = list + "" + inventory[inventory.length - 1];
+	print_Game("[Inventory]: " + list);
+  }
+}
+
+// mental map function
+function make_mental_map(map_string) {
+   var mapArea = document.getElementById("map_location");
+   mapArea.value = map_string;
 }

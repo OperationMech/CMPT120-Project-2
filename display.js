@@ -14,6 +14,7 @@ function initializeGame() {
                    "^ = player        [x] = You are here\n" +
 				   "* = panel        ^ < > v = arrows\n" +
 				   "! = interactible\n";
+  make_map();
 }
 
 //  Simple function to update the text area
@@ -46,4 +47,49 @@ function display_inventory() {
 function make_mental_map(map_string) {
    var mapArea = document.getElementById("map_location");
    mapArea.value = map_string;
+}
+
+// map function
+function make_map() {
+  var mainMap = document.getElementById("main_map");
+  if(!is_virtualized){
+    switch (current_location) {
+	  case 0:
+	   mainMap.value = "\n\n" + "            [ ]>[ ]\n" +
+						"            ^     v\n"+ "        [ ]>[ ]  [ ]\n" +
+						"        ^    \n"+ "        [x]";
+		break;
+	  case 2:
+	   mainMap.value = "\n\n" + "            [ ]>[ ]\n" +
+						"            ^     v\n"+ "        [x]>[ ]  [ ]\n" +
+						"        ^    \n"+ "        [ ]";
+		break;
+	  case 4:
+	    mainMap.value = "\n\n" + "            [ ]>[ ]\n" +
+						"            ^     v\n"+ "        [ ]>[x]  [ ]\n" +
+						"        ^    \n"+ "        [ ]";
+		break;
+	  case 5:
+	    mainMap.value = "\n\n" + "            [x]>[ ]\n" +
+						"            ^     v\n"+ "        [ ]>[ ]  [ ]\n" +
+						"        ^    \n"+ "        [ ]";
+		break;
+	  case 6:
+	    mainMap.value = "\n\n" + "            [ ]>[ ]\n" +
+						"            ^     v\n"+ "        [ ]>[ ]  [x]\n" +
+						"        ^    \n"+ "        [ ]";
+		break;
+	  case 7:
+	    mainMap.value = "\n\n" + "            [ ]>[x]\n" +
+						"            ^     v\n"+ "        [ ]>[ ]  [ ]\n" +
+						"        ^    \n"+ "        [ ]";
+		break;
+	  default:
+	    mainMap.value = ""; // map is not a major area or alternate path
+		break;
+	}
+  } else {
+     mainMap.value =""; // purge old map
+    // printMap helper
+  }
 }

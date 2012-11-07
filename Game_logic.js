@@ -9,7 +9,7 @@ var north_panel_hits_remaining = 4;
 var has_map = false;
 var inventory = [];
 var items = 0;
-var chamber_is_cleared = new Array("", "", false , "", false, false, "" , false);
+var chamber_is_cleared = new Array(false, false, false, false, false, false, false, false);
 var current_location = 0;
 var moves = 0;
 var score = 0;
@@ -52,22 +52,25 @@ function interaction_selector() {
 
 function change_location_button(dir) {
   //Buttton to location conversion
-    var game_area = document.getElementById("Game_area");
-	var direction = "";
-    if(	dir === 1) {
-	  direction = "north";
-	  move_to_Area(direction);
-	}else if( dir === 2) {
-	  direction = "south";
-	  move_to_Area(direction);
-	}else if (dir === 3) {
-	  direction = "east";
-	  move_to_Area(direction);
-	}else if (dir === 4) {
-	  direction = "west";
-	  move_to_Area(direction);
-	}else {
-	  alert("This should not happen"); // ERROR Message
+    if(!is_virtualized) {
+		var direction = "";
+		if(	dir === 1) {
+		  direction = "north";
+		  move_to_Area(direction);
+		}else if( dir === 2) {
+		  direction = "south";
+		  move_to_Area(direction);
+		}else if (dir === 3) {
+		  direction = "east";
+		  move_to_Area(direction);
+		}else if (dir === 4) {
+		  direction = "west";
+		  move_to_Area(direction);
+		}else {
+		  alert("This should not happen"); // ERROR Message
+		}
+	} else {
+	  // adventurelandButtons(dir);
 	}
 }
 
@@ -123,7 +126,7 @@ function location_valid(dir) {
 		}
 		break;
 	 case 3:
-	    if(dir === "north" && items > 0){
+	    if(dir === "east" && items > 0){
 		  return true;
 		}else {
 		  return false;
@@ -173,6 +176,7 @@ function adjust_north_panel(is_rammed) {
 	current_location = 3;
 	score = score + 20;
 	update_buttons();
+	make_map();
 	moves = moves + 1;
 	return "You have become entrapped in the panels. The announcer states " +
 	       "\n'You have been deemed uninteligible; proceeding with disposal of INSERT NAME HERE.'" +
@@ -198,12 +202,14 @@ function interact_location(command) {
 	}else if(command_value_split[1].toLowerCase() === "inventory") {
 	  display_inventory();
 	}else if(command_value_split[1].toLowerCase() === "use" && 
-	       command_value_split[2].toLowerCase() === locations[current_location][2]) {
-		if(current_location === 0){
+	       command_value_split[2].toLowerCase() === locations[current_location][2] &&
+		   !chamber_is_cleared[current_location]) {
+		if(current_location === 0 && !is_last_traveler){
 		  north_panel_hits_remaining = -1;
 		  is_last_traveler = true;
 		  score = score + 10;
 		  print_Game(locations[current_location][3]);
+		  chamber_is_cleared[current_location] = true;
 		  increase_score_once();
 		} else {
 		  score = score + 5;
@@ -214,7 +220,7 @@ function interact_location(command) {
 		  }
 		  if( command_value_split[2].toLowerCase() === "uploader") {
 		    print_Game(locations[current_location][3]);
-			// init_adventure_land();  future sub game
+			init_adventure_land();
 			is_virtualized = true;
 		  }
 		}
@@ -344,13 +350,19 @@ function change_location(dir) {
 		   current_location = current_location + 1;  
            moves = moves + 1;		   
 		   update_buttons();
+		   make_map();
 		   increase_score_once();
 		   break;
 		case "south" :
-		   print_Game(locations[current_location][3]);
+		   if(!chamber_is_cleared[4]) {
+		     print_Game("You proceed to test Chamber 2 that has a switch and seems to be too open. No obstacles are immeadiately visable. The door is north.");
+		   } else {
+		     print_Game(locations[current_location][3]);
+		   }
 		   current_location = current_location - 1;
 		   moves = moves + 1;
 		   update_buttons();
+		   make_map();
 		   increase_score_once();
 		   break;
 		case "east" :
@@ -358,6 +370,7 @@ function change_location(dir) {
 		   current_location = current_location + 2;
 		   moves = moves + 1;
 		   update_buttons();
+		   make_map();
 		   increase_score_once();
 		   break;
 		case "west" :
@@ -365,6 +378,7 @@ function change_location(dir) {
 		   current_location = current_location - 2;
 		   moves = moves + 1;
 		   update_buttons();
+		   make_map();
 		   increase_score_once();
 		   break;
 		default :
@@ -391,16 +405,16 @@ function update_buttons() {
 	   b_west.disabled = true;
 	   break;
 	case 3:
+       b_north.disabled = true;
+	   b_south.disabled = true;
+	   b_east.disabled = false;
+	   b_west.disabled = true;
+	   break;
+	case 4:
        b_north.disabled = false;
 	   b_south.disabled = true;
 	   b_east.disabled = true;
 	   b_west.disabled = true;
-	   break;
-	case 4:
-       b_north.disabled = true;
-	   b_south.disabled = true;
-	   b_east.disabled = true;
-	   b_west.disabled = false;
 	   break;
 	case 5:
 	   b_north.disabled = false;

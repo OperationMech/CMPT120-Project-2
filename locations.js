@@ -2,12 +2,14 @@
 
 var locations = [["chamber0", true, "button", "The panel lifts up and rises overhead. A hallway is revealed with a closed door at the end."], 
                  ["hallway",false, "manipulator", "The north door opens and you proceed into test chamber 1.  The chamber has a door to the east with an acid pit between you and it. There is also a manipulator socket." ], 
-				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test Chamber 2 that has a switch and seems to be too open. No obstacles are immeadiately visable." ], 
+				 ["chamber1", false, "socket", "The announcer comes on to congragulate you on your sucess of lowering the bridge.  You proceed to test Chamber 2 that has a switch and seems to be too open. No obstacles are immeadiately visable. The door is north." ], 
 				 ["incinerator", false, "manipulator", "You proceed through the maintainance areas until you see an opening back into the testing area. You enter Chamber 3."], 
-				 ["chamber2", false, "switch", "You enter Chamber 3. The chamber has a door on the west side, and seems to be empty aside from the socket towards the center. You walk to nearby the socket."  ],
-				 ["chamber3", false, "socket", "The announcer states 'Well done test subject. You have almost reached your current goal.' You proceed into chamber 4 which has lasers east, mirrors aligned in a pattern, a socket, and a massive security door."],
+				 ["chamber2", false, "switch", "You enter Chamber 3. The chamber has a door on the east side, and seems to be empty aside from the socket towards the center. You walk up to the socket."  ],
+				 ["chamber3", false, "socket", "The announcer states 'Well done test subject. You have almost reached your current goal.' You proceed into chamber 4 which has lasers east, mirrors aligned in a pattern, a socket, and a massive security door south."],
 				 ["chamber5", false, "uploader", "You feel a strange rush."],
 				 ["chamber4",false, "socket","The large security door opens.  A 'teleporter' room is revealed."]];
+				 
+var Adventureland = [];
 
 // HL and portal refrence 
 function hidden_room() {
@@ -19,10 +21,23 @@ function hidden_room() {
     is_revealed = true;
 }	
 
+// meta location
+function metaLocation(_name) {
+  this.name = _name;
+  this.locations = [];
+  this.map = ""; 
+  // debug toString
+  toString = function() { return "object [Meta location]: " + this.name + ", " + this.locations.length;} 
+}
 // location prototype
 function Location (_name, _interactible) {
   this.name = _name;
   this.visited = false;
   this.interactible = _interactible;
   this.description = "";
+  // debug toString
+  toString = function() { 
+            return "object [location]: " + this.name + ", " +
+			       this.visited + ", " + this.interactible + ", " +
+				   this.description;}
 }

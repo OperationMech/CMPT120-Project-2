@@ -1,39 +1,96 @@
 // javascript   adventureland.js
 
-//global vars
-// keep track of main x,y coords start in center
-var currentMetaXY = 5;
-// keep track of area x,y coords start in center
-var currentXY = 5;
+// current location
+var curLoc = null;
+
+//new adventureland inventory
+advInventory = new array();
 
 // helper print function
 function printCurrentLocation() {
-  print_Game(Adventureland[currentMetaXY].locations[currentXY].description);
+  print_Game(curLoc.description);
 }
 
 // helper visited function
 function visitLocation() {
-  Adventureland[currentMetaXY].locations[currentXY].visited=true;
+  curLoc.visited = true;
 }
 
+//general initialize locations function
+function initWorld() {
+  initEnchantedWood();
+  initGlacier();
+  initNorthMount();
+  initBlRkMines();
+  initTumbPlains();
+  initNorthWestChasm();
+  initSouthWestRange();
+  initEastCoast();
+  initNorthEastSwamp();
+  }
 //Enchanted wood init
-function initEncWood() {
-  var addMetaLocation = new metaLocation("Enchanted Wood");
-  var addLocation = new Location("Central Wood", "EldarStone");
-  addLocation.description = "A bright flash occurs, and you end up in a heavily wooded area.  " +
-							"There is a stone nestled between two large pine trees.  " + "The stone has an auora around it.  " +
-                            "As you get closer to the stone it organizes surface inscriptions into readable text.";
-  addMetaLocation.locations[5] = addLocation;
-  Adventureland[5] = addMetaLocation;
-  // TODO add the 8 remaining locations
+function initEnchantedWood() {
+  centralWood= new Location ("Central Wood", "EldarStone");
+  centralWood.description = "There is a stone nestled between two large pine trees.  " + "The stone has an auora around it.  " +
+                            "As you get closer to the stone it organizes surface inscriptions into readable text.";							
+  northWood = new Location ("North Wood", "EldarWood");
+  northWood.description = "";
+  
+  northWood.south = centralWood;
+  northWood.north = arcanePlains;
+  
+  southWood = new Location ("South Wood");
+  southWood.description = "";
+  
+  southWood.north = centralWood;
+  southWood.south = tumbPlainsNorth;
+  southWood.east = s_eastWood;
+  
+  eastWood = new Location("East Wood", "Enchanted Wood Pulp");
+  eastWood.description = "";
+  
+  eastWood.west = centralWood;
+  eastWood.east = eastJetty;
+  
+  westWood = new Location ( "West Wood", "Scorpion Obelisk");
+  westWood.description = "";
+  
+  westWood.west = iceWall;
+  westWood.east = centralWood;
+  
+  n_westWood  = new Location ( "North Temple", "switch");
+  n_westWood.description = "";
+  
+  n_westWood.south = westWood;
+  westWood.north = n_westWood;
+  
+  s_eastWood = new Location ( "South Grotto", "Enchanted Spring");
+  s_eastWood = "";
+  
+  s_eastWood.north = eastWood;
+  eastWood.south = s_eastWood;
+  
+  centralWood.east = eastWood;
+  centralWood.west = westWood;
+  centralWood.north = northWood;
+  centralWood.south = southWood;
+  
 }
 
 //Glacier init
 function initGlacier() {
+  iceWall = new Location ( "Eastern Glaciation");
+  iceWall.description = "";
+  
+  iceWall.east = westWood;  
 }
 
-//Mt Vulcon init
-function initMtVulcon() {
+//north mount init
+function initNorthMount() {
+  arcanePlains = new Location ( "Arcane Plains");
+  arcanePlains.description = "";
+
+  arcanePlains.south = northWood;  
 }
 
 //Bleeding Rock Mines init 
@@ -42,26 +99,36 @@ function initBlRkMines() {
 
 //Tumbling Plains init
 function initTumbPlains() {
+  tumbPlainsNorth = new Location ("Northern Plains");
+  tumbPlainsNorth.description = "";
+  
+  tumbPlainsNorth.north = southWood;
 }
 
 //Northwest Chasm init
-function initNWChasm() {
+function initNorthWestChasm() {
 }
 
 //Southwest Mountain Range
-function initSWRange() {
+function initSouthWestRange() {
 }
 
 //East Coast
-function initECoast() {
+function initEastCoast() {
+  eastJetty = new Location ( "Eastern Jetty", "Lighthouse");
+  eastJetty.description = "";
+  
+  eastJetty.west = eastWood;
 }
 
 //Northeast swamp
-function initNESwamp() {
+function initNorthEastSwamp() {
 } 
 
 function init_adventure_land() {
-  initEncWood();
+  initWorld();
+  print_Game("A bright flash occurs, and you end up in a heavily wooded area.");
+  curLoc = centralWood;
   printCurrentLocation();
   visitLocation();
   make_map();

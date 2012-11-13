@@ -90,6 +90,5 @@ function make_map() {
 	}
   } else {
      mainMap.value =""; // purge old map
-    // printMap helper
   }
 }

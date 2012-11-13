@@ -9,8 +9,6 @@ var locations = [["chamber0", true, "button", "The panel lifts up and rises over
 				 ["chamber5", false, "uploader", "You feel a strange rush."],
 				 ["chamber4",false, "socket","The large security door opens.  A 'teleporter' room is revealed."]];
 				 
-var Adventureland = [];
-
 // HL and portal refrence 
 function hidden_room() {
   print_Game("You search the north wall to find a slightly ajar panel.  You proceed to pull it open." +
@@ -21,22 +19,45 @@ function hidden_room() {
     is_revealed = true;
 }	
 
-// meta location
-function metaLocation(_name) {
-  this.name = _name;
-  this.locations = [];
-  this.map = ""; 
-  // debug toString
-  toString = function() { return "object [Meta location]: " + this.name + ", " + this.locations.length;} 
-}
+//adventureland locations
+
+//  enchanted wood
+var centralWood = new Location();
+var northWood = new Location();
+var eastWood = new Location();
+var westWood = new Location();
+var southWood = new Location();
+var n_westWood = new Location();
+var s_eastWood = new Location();
+
+//  northern mount
+var arcanePlains = new Location();
+
+//  west glacier
+var iceWall = new Location();
+
+//  east coast
+var eastJetty = new Location();
+
+//  tumbling plains
+var tumbPlainsNorth = new Location();
+
 // location prototype
 function Location (_name, _interactible) {
   this.name = _name;
   this.visited = false;
-  this.interactible = _interactible;
+  if(_interactible){
+    this.interactible = _interactible;
+  } else {
+    this.interactible = "";
+  }
+  this.east = new Location();
+  this.west = new Location();
+  this.north = new Location();
+  this.south = new Location();
   this.description = "";
   // debug toString
-  toString = function() { 
+  this.toString = function() { 
             return "object [location]: " + this.name + ", " +
 			       this.visited + ", " + this.interactible + ", " +
 				   this.description;}

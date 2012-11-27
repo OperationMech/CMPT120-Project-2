@@ -21,7 +21,7 @@ function visitLocation() {
 
 adventureControl(msg) {
   var input = msg.toLowerCase();
-  switch (input[0]) {
+  switch (input) {
     case "n":
 	    goNorth();
         break;
@@ -41,12 +41,15 @@ adventureControl(msg) {
 	    interactLocation();
 		break;
 	case "map":
-	    if(has_map === true)
+	    if(has_map === true){
 		   updateMap();
-		else
-		   make_mental_map(
-	    
-		
+		} else {
+		   print_Game("You do not have a map");
+		}
+		break;
+	case default:
+	   print_Game("Valid commands are:\n directions(n,s,e,w), pickup, or use."
+	   break;
   }
 }
 

@@ -1,7 +1,8 @@
 // Javascript Game_logic.js
+// projects 2-4 (versions 0.2 - 0.6)
 // Quantumplexing start code
 //Global variables
-var isUninitialized = true;
+var not_initialized = true;
 var is_last_traveler = false;
 var is_revealed = false;
 var is_virtualized = false;
@@ -16,6 +17,16 @@ var score = 0;
 
 // I personally consider interaction / movement commands to be game logic
 //    not independent seperate "objects" 
+
+//item prototype
+function Item(_name) {
+  this.name = _name;
+  this.description = "";
+  this.toString = function() {
+       return "[Item]: " + this.name + "\n" +
+	          this.description;
+  }
+}
 
 function interaction_selector() {
   //Text based command selector
@@ -46,7 +57,7 @@ function interaction_selector() {
 		  print_Game("Your character scratches his head.\n\nValid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
 		}
 	} else {
-	   // adventure_control(command.value); future adventureland contol handler - acts differently
+	   adventure_control(command.value);
 	}
 }
 
@@ -70,7 +81,7 @@ function change_location_button(dir) {
 		  alert("This should not happen"); // ERROR Message
 		}
 	} else {
-	  // adventurelandButtons(dir);
+	  adventurelandButtons(dir);
 	}
 }
 

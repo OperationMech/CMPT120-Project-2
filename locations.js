@@ -43,14 +43,10 @@ var eastJetty = new Location();
 var tumbPlainsNorth = new Location();
 
 // location prototype
-function Location (_name, _interactible) {
+function Location (_name) {
   this.name = _name;
   this.visited = false;
-  if(_interactible){
-    this.interactible = _interactible;
-  } else {
-    this.interactible = "";
-  }
+  this.interactible = null;
   this.east = new Location();
   this.west = new Location();
   this.north = new Location();
@@ -60,5 +56,9 @@ function Location (_name, _interactible) {
   this.toString = function() { 
             return "object [location]: " + this.name + ", " +
 			       this.visited + ", " + this.interactible + ", " +
-				   this.description;}
+				   this.description;
+  }
+  this.initialize = function ( _interactible) {
+            this.interactible = _interactible;
+  }
 }

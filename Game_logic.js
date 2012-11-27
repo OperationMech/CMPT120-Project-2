@@ -240,7 +240,7 @@ function interact_location(command) {
 		add_to_inventory(command_value_split[2].toLowerCase());
 	} else {
 	  print_Game("interaction commands are as follows:  interact: <command> <object> \n" + 
-	              "Valid commands are: h, ?, help, map, mental_map, use and pickup.");
+	              "Valid commands are: h, ?, help, map, mental_map, inventory, use, and pickup.");
 	}
 }
 

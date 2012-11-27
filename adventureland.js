@@ -47,8 +47,11 @@ adventureControl(msg) {
 		   print_Game("You do not have a map");
 		}
 		break;
+    case "inventory":
+	    displayInventory();
+		break;
 	case default:
-	   print_Game("Valid commands are:\n directions(n,s,e,w), pickup, or use."
+	   print_Game("Valid commands are:\n directions(n,s,e,w), inventory, pickup, or use."
 	   break;
   }
 }

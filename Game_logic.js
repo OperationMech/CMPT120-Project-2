@@ -1,6 +1,7 @@
 // Javascript Game_logic.js
 // projects 2-4 (versions 0.2 - 0.8)
 // Quantumplexing start code
+
 //Global variables
 var not_initialized = true;
 var is_last_traveler = false;
@@ -14,12 +15,6 @@ var chamber_is_cleared = new Array(false, false, false, false, false, false, fal
 var current_location = 0;
 var moves = 0;
 var score = 0;   
-
-// global button definition
-var b_north = document.getElementById("btnNorth");
-var b_south = document.getElementById("btnSouth");
-var b_east = document.getElementById("btnEast");
-var b_west = document.getElementById("btnWest");
 
 // I personally consider interaction / movement commands to be game logic
 //    not independent seperate "objects" 
@@ -63,7 +58,7 @@ function interaction_selector() {
 		  print_Game("Your character scratches his head.\n\nValid commands are:\n directions(n,s,e,w) or interact: <command> <object>");
 		}
 	} else {
-	   adventure_control(command.value);
+	   adventureControl(command.value);
 	}
 }
 
@@ -404,6 +399,10 @@ function change_location(dir) {
 }
 
 function update_buttons() {
+   var b_north = document.getElementById("btnNorth");
+   var b_south = document.getElementById("btnSouth");
+   var b_east = document.getElementById("btnEast");
+   var b_west = document.getElementById("btnWest");
    switch(current_location) {
     case 1:
 	   b_north.disabled = false;

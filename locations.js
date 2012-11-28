@@ -22,25 +22,25 @@ function hidden_room() {
 //adventureland locations
 
 //  enchanted wood
-var centralWood = new Location();
-var northWood = new Location();
-var eastWood = new Location();
-var westWood = new Location();
-var southWood = new Location();
-var n_westWood = new Location();
-var s_eastWood = new Location();
+var centralWood = new Location ("Central Wood");
+var northWood = new Location ("North Wood");
+var eastWood = new Location("East Wood");
+var westWood = new Location ( "West Wood");
+var southWood = new Location ("South Wood");
+var n_westWood  = new Location ( "North Temple");
+var s_eastWood = new Location ( "South Grotto");
 
 //  northern mount
-var arcanePlains = new Location();
+var arcanePlains = new Location ( "Arcane Plains");
 
 //  west glacier
-var iceWall = new Location();
+var iceWall = new Location ( "Eastern Glaciation");
 
 //  east coast
-var eastJetty = new Location();
+var eastJetty = new Location ( "Eastern Jetty");
 
 //  tumbling plains
-var tumbPlainsNorth = new Location();
+var tumbPlainsNorth = new Location ("Northern Plains");
 
 // location prototype
 function Location (_name) {

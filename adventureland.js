@@ -6,7 +6,7 @@ var curLoc = null;
 //new adventureland inventory
 advInventory = new Array();
 
-
+// item based inventory adder
 function addToInventory () {
   if (curLoc.interactible !== null){
     if(typeof(curLoc.interactible) !== 'string'){
@@ -21,6 +21,18 @@ function addToInventory () {
     print_Game("There is nothing to pickup here.")
   }
 }
+
+// item based inventory display
+function displayInventory() {
+  var list = "";
+  for(var i = 0; i < advInventory.length; i ++) {
+    if( i === advInventory.length - 1) {
+	   list = list + advInventory[i];
+	} else {
+    list =  list + advInventory[i].name + ", "; 
+	}
+}
+
 
 // helper print function
 function printCurrentLocation() {
@@ -47,8 +59,11 @@ function goDir(dir) {
 }
 
 // update buttons based on the location change uses curLoc immeadiately after change
- function updateAdvButtons();
-{
+ function updateAdvButtons() {
+  var b_north = document.getElementById("btnNorth");
+  var b_south = document.getElementById("btnSouth");
+  var b_east = document.getElementById("btnEast");
+  var b_west = document.getElementById("btnWest");
   if(curLoc.north !== null)
   {
     b_north.disabled = false;
@@ -107,8 +122,8 @@ function adventureControl(msg) {
     case "inventory":
 	    displayInventory();
 		break;
-	case default:
-	   print_Game("Valid commands are:\n directions(n,s,e,w), inventory, pickup, or use."
+	default:
+	   print_Game("Valid commands are:\n directions(n,s,e,w), inventory, pickup, or use.");
 	   break;
   }
 }
@@ -136,29 +151,27 @@ function adventurelandButtons(direction) {
 
 //general initialize locations function
 function initWorld() {
-  initEnchantedWood();
+  initNorthWestChasm();
   initGlacier();
   initNorthMount();
   initBlRkMines();
-  initTumbPlains();
-  initNorthWestChasm();
   initSouthWestRange();
-  initEastCoast();
+  initTumbPlains();
   initNorthEastSwamp();
+  initEastCoast();
+  initEnchantedWood();
   }
 //Enchanted wood init
 function initEnchantedWood() {
   
   var item = new Item();
   
-  centralWood = new Location ("Central Wood");
   centralWood.description = "There is a stone nestled between two large pine trees.  " + 
 							"The stone has an auora around it.  " +
                             "As you get closer to the stone it organizes surface inscriptions into readable text.";
 							
   centralWood.initialize("EldarStone");	
   
-  northWood = new Location ("North Wood");
   northWood.description = "You reach the north end of the Wood, there is a large single tree." + 
 						  "You see the entire northern area.  " + 
                           "From a chasm to a volcanic mountain, and to what seems to be a swamp.  "+ 
@@ -168,16 +181,13 @@ function initEnchantedWood() {
   northWood.south = centralWood;
   northWood.north = arcanePlains;
   
-  southWood = new Location ("South Wood");
   southWood.description = "You reach the south end of the wood.  " + 
 						  "There is a small wooded pond to the east.  " + 
 						  "A plain stretches as far as one can see south.";
   
   southWood.north = centralWood;
   southWood.south = tumbPlainsNorth;
-  southWood.east = s_eastWood;
   
-  eastWood = new Location("East Wood");
   eastWood.description = "You reach the eastern clearing.  " + 
 						 "You see a motar and pestle on a log.  " +
 						 "You can hear the sound of waves creashing further east."
@@ -191,15 +201,13 @@ function initEnchantedWood() {
   eastWood.west = centralWood;
   eastWood.east = eastJetty;
   
-  westWood = new Location ( "West Wood");
   westWood.description = "A densely forested area.  " + 
 						 "Within the packed brush there is a large structure." +
 						 "There seems to be a worn out inscription on it.";
   
   westWood.west = iceWall;
   westWood.east = centralWood;
-  
-  n_westWood  = new Location ( "North Temple");
+ 
   n_westWood.description = "You reach a small clearing in the dense forest.  " +
 						   "There is a door in a wall of plants.  " + 
 						   "There is also a switch on a rocky structure nearby.";
@@ -208,12 +216,13 @@ function initEnchantedWood() {
   n_westWood.south = westWood;
   westWood.north = n_westWood;
   
-  s_eastWood = new Location ( "South Grotto");
   s_eastWood.description = "You reach where the pond was to find only a shining light in a clearing.";
   s_eastWood.initialize("Enchanted Spring");
   
   s_eastWood.north = eastWood;
   eastWood.south = s_eastWood;
+  southWood.east = s_eastWood;
+  s_eastWood.west = southWood;
   
   centralWood.east = eastWood;
   centralWood.west = westWood;
@@ -224,7 +233,6 @@ function initEnchantedWood() {
 
 //Glacier init
 function initGlacier() {
-  iceWall = new Location ( "Eastern Glaciation");
   iceWall.description = "A 100 ft wall of ice impedes your progress this way.";
   
   iceWall.east = westWood;  
@@ -232,7 +240,6 @@ function initGlacier() {
 
 //north mount init
 function initNorthMount() {
-  arcanePlains = new Location ( "Arcane Plains");
   arcanePlains.description = "You begin traveling to the mountain when you become weak and dazed.";
 
   arcanePlains.south = northWood;  
@@ -244,7 +251,6 @@ function initBlRkMines() {
 
 //Tumbling Plains init
 function initTumbPlains() {
-  tumbPlainsNorth = new Location ("Northern Plains");
   tumbPlainsNorth.description = "You reach a small foothill in the plains.  You take a breather.  " + 
 								"The wood is considerably north now.  You can see something east.  " +
 								"There is a mountain range far west.";
@@ -262,7 +268,6 @@ function initSouthWestRange() {
 
 //East Coast
 function initEastCoast() {
-  eastJetty = new Location ( "Eastern Jetty");
   eastJetty.description = "You leave the forest for the coastline.  " + 
 						  "You go on to a jetty which has a lighthouse.  ";
   
@@ -278,11 +283,13 @@ function init_adventure_land() {
   print_Game("A bright flash occurs, and you end up in a heavily wooded area.");
   curLoc = centralWood;
   printCurrentLocation();
-  visitLocation();
-   map_key.value = "Local:              Global: \n" +
-                   "n/a       [ ] = location\n" +
-                   "n/a       [x] = You are here\n" +
-				   "n/a        ^ < > v = arrows\n" +
-				   "n/a";
+  increase_score_once();
+  updateAdvButtons();
+  var mapKey = document.getElementById("map_key");
+  mapKey.value = "Local:              Global: \n" +
+                  "n/a       [ ] = location\n" +
+                  "n/a       [x] = You are here\n" +
+				  "n/a        ^ < > v = arrows\n" +
+				  "n/a";
   make_map();
 }

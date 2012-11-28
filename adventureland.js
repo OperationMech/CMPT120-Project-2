@@ -26,10 +26,10 @@ function addToInventory () {
 function displayInventory() {
   var list = "";
   for(var i = 0; i < advInventory.length; i ++) {
-    if( i === advInventory.length - 1) {
-	   list = list + advInventory[i].name;
+    if( i === advInventory.length - 1 || advInventory.length === 1) {
+	  list = list + advInventory[i].name;
 	} else {
-    list =  list + advInventory[i].name + ", "; 
+      list =  list + advInventory[i].name + ", "; 
 	}
   }
 }

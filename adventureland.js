@@ -27,10 +27,11 @@ function displayInventory() {
   var list = "";
   for(var i = 0; i < advInventory.length; i ++) {
     if( i === advInventory.length - 1) {
-	   list = list + advInventory[i];
+	   list = list + advInventory[i].name;
 	} else {
     list =  list + advInventory[i].name + ", "; 
 	}
+  }
 }
 
 

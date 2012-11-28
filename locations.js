@@ -7,7 +7,7 @@ var locations = [["chamber0", true, "button", "The panel lifts up and rises over
 				 ["chamber2", false, "switch", "You enter Chamber 3. The chamber has a door on the east side, and seems to be empty aside from the socket towards the center. You walk up to the socket."  ],
 				 ["chamber3", false, "socket", "The announcer states 'Well done test subject. You have almost reached your current goal.' You proceed into chamber 4 which has lasers east, mirrors aligned in a pattern, a socket, and a massive security door south."],
 				 ["chamber5", false, "uploader", "You feel a strange rush."],
-				 ["chamber4",false, "socket","The large security door opens.  A 'teleporter' room is revealed."]];
+				 ["chamber4",false, "socket","The large security door opens.  An 'uploader' room is revealed.  You place your mainpulator in a matched numbered socket."]];
 				 
 // HL and portal refrence 
 function hidden_room() {

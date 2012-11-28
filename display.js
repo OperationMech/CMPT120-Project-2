@@ -1,5 +1,10 @@
 // javascript  display.js
 
+// map globals vars
+var map_key = document.getElementById("map_key");
+var mainMap = document.getElementById("main_map");
+var mapLocal = document.getElementById("map_location");
+
 function initializeGame() {
   // game init function - displays initial text
   print_Game("You awake, startled and confused. \"Welcome, INSERT NAME, to the Enrichment Center!\"," + 
@@ -7,8 +12,6 @@ function initializeGame() {
 		 "three glass walls, and a panel wall. A timer is above it flashing 00:00:00.  " + 
 		 "The wall seems to be mobile: it is attached to rails on the right and left sides.");
   not_initialized = false;
-  var map_key = document.getElementById("map_key");
-  var facility_map = document.getElementById("main_map");
   map_key.value = "Local:              Global: \n" +
                    "~ = glass pane  [ ] = chamber\n" +
                    "^ = player        [x] = You are here\n" +
@@ -45,13 +48,11 @@ function display_inventory() {
 
 // mental map function
 function make_mental_map(map_string) {
-   var mapArea = document.getElementById("map_location");
-   mapArea.value = map_string;
+   mapLocal.value = map_string;
 }
 
 // map function
 function make_map() {
-  var mainMap = document.getElementById("main_map");
   if(!is_virtualized){
     switch (current_location) {
 	  case 0:

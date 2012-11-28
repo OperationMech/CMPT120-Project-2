@@ -1,5 +1,5 @@
 // Javascript Game_logic.js
-// projects 2-4 (versions 0.2 - 0.6)
+// projects 2-4 (versions 0.2 - 0.8)
 // Quantumplexing start code
 //Global variables
 var not_initialized = true;
@@ -13,7 +13,13 @@ var items = 0;
 var chamber_is_cleared = new Array(false, false, false, false, false, false, false, false);
 var current_location = 0;
 var moves = 0;
-var score = 0;
+var score = 0;   
+
+// global button definition
+var b_north = document.getElementById("btnNorth");
+var b_south = document.getElementById("btnSouth");
+var b_east = document.getElementById("btnEast");
+var b_west = document.getElementById("btnWest");
 
 // I personally consider interaction / movement commands to be game logic
 //    not independent seperate "objects" 
@@ -398,10 +404,6 @@ function change_location(dir) {
 }
 
 function update_buttons() {
-   var b_north = document.getElementById("btnNorth");
-   var b_south = document.getElementById("btnSouth");
-   var b_east = document.getElementById("btnEast");
-   var b_west = document.getElementById("btnWest");
    switch(current_location) {
     case 1:
 	   b_north.disabled = false;
@@ -448,14 +450,22 @@ function update_buttons() {
 
 function increase_score_once() {
   //scoring function and logical check
-   var score_area = document.getElementById("score_print");
-   if(locations[current_location][1] === false) {
-       locations[current_location][1] = true;
-	   score = score + 10;
-	   moves = moves + 1;
-	}else {
-	  //updates score
-	  score_area.value = "Score:" + score;
+  var score_area = document.getElementById("score_print");
+   if(!is_virtualized) {
+	   if(locations[current_location][1] === false) {
+		   locations[current_location][1] = true;
+		   score = score + 10;
+		}else {
+		  //updates score
+		  score_area.value = "Score:" + score;
+		}
+	} else {
+	   if(!curLoc.visited) {
+		  curLoc.visited = true;
+		  score = score + 10;
+		} else {
+		  //updates score
+		  score_area.value = "Score:" + score;
+		}
 	}
-	score_area.value = "Score:" + score;
 }

@@ -23,7 +23,7 @@ function initializeGame() {
 //  Simple function to update the text area
 function print_Game(message) {
    var game_area = document.getElementById("Game_area");
-   if(isUninitialized) {
+   if(not_initialized) {
      game_area.value = "";
      game_area.value = message;
 	} else {

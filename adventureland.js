@@ -47,7 +47,7 @@ function goDir(dir) {
 }
 
 // update buttons based on the location change uses curLoc immeadiately after change
-updateAdvButtons();
+ function updateAdvButtons();
 {
   if(curLoc.north !== null)
   {
@@ -76,7 +76,7 @@ updateAdvButtons();
 }
 
 // new command parser called from the old one after virtualization occurs
-adventureControl(msg) {
+function adventureControl(msg) {
   var input = msg.toLowerCase().split(" ");
   switch (input[0]) {
     case "n":

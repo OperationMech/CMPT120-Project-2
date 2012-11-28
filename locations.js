@@ -47,10 +47,10 @@ function Location (_name) {
   this.name = _name;
   this.visited = false;
   this.interactible = null;
-  this.east = new Location();
-  this.west = new Location();
-  this.north = new Location();
-  this.south = new Location();
+  this.east = null;
+  this.west = null;
+  this.north = null;
+  this.south = null;
   this.description = "";
   // debug toString
   this.toString = function() { 

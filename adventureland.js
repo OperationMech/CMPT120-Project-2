@@ -34,7 +34,6 @@ function displayInventory() {
   }
 }
 
-
 // helper print function
 function printCurrentLocation() {
   print_Game(curLoc.description);
@@ -117,7 +116,7 @@ function adventureControl(msg) {
 	    if(has_map === true){
 		   updateMap();
 		} else {
-		   print_Game("You do not have a map");
+		   print_Game("You do not have a map.");
 		}
 		break;
     case "inventory":
@@ -177,6 +176,7 @@ function initEnchantedWood() {
 						  "You see the entire northern area.  " + 
                           "From a chasm to a volcanic mountain, and to what seems to be a swamp.  "+ 
 						  "There is a hostile plain between you and the volcanic mountain";
+						  
   northWood.initialize("EldarWood");
   
   northWood.south = centralWood;

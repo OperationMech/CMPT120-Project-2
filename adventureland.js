@@ -15,7 +15,7 @@ function addToInventory () {
 	  curLoc.interactible = null;
 	  score = score + 100;
 	} else {
-	  print_Game("You struggled trying to pickup a " + curLoc.interactible.name +".");
+	  print_Game("You struggled trying to pickup a " + curLoc.interactible +".");
 	}
   } else {
     print_Game("There is nothing to pickup here.")
@@ -32,6 +32,7 @@ function displayInventory() {
       list =  list + advInventory[i].name + ", "; 
 	}
   }
+  print_Game(list);
 }
 
 // helper print function
@@ -60,10 +61,6 @@ function goDir(dir) {
 
 // update buttons based on the location change uses curLoc immeadiately after change
  function updateAdvButtons() {
-  var b_north = document.getElementById("btnNorth");
-  var b_south = document.getElementById("btnSouth");
-  var b_east = document.getElementById("btnEast");
-  var b_west = document.getElementById("btnWest");
   if(curLoc.north !== null)
   {
     b_north.disabled = false;
@@ -280,6 +277,7 @@ function initNorthEastSwamp() {
 } 
 
 function init_adventure_land() {
+  current_location = -1;
   initWorld();
   print_Game("A bright flash occurs, and you end up in a heavily wooded area.");
   curLoc = centralWood;

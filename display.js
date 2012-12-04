@@ -1,8 +1,30 @@
 // javascript  display.js
 
+// map html vars - null, awaiting init
+var mapKey = null;
+var mapLocal = null;
+var mainMap = null;
+
+// html button vars - null, awaiting init
+var b_north = null;
+var b_south = null;
+var b_east = null;
+var b_west = null;
+
 function initializeGame() {
-  // game init function - displays initial text
-  var mapKey = document.getElementById("map_key");
+  // game init function - displays initial text also updates all document objects
+  
+  // init map html objects
+  mapKey = document.getElementById("map_key");
+  mapLocal = document.getElementById("map_location");
+  mainMap = document.getElementById("main_map");
+  
+  // init html buttons
+  b_north = document.getElementById("btnNorth");
+  b_south = document.getElementById("btnSouth");
+  b_east = document.getElementById("btnEast");
+  b_west = document.getElementById("btnWest");
+  
   print_Game("You awake, startled and confused. \"Welcome, INSERT NAME, to the Enrichment Center!\"," + 
          "says an automated message.  You look around to see a few items, a button, a small facility map, your \"bed\", " + 
 		 "three glass walls, and a panel wall. A timer is above it flashing 00:00:00.  " + 
@@ -44,13 +66,11 @@ function display_inventory() {
 
 // mental map function
 function make_mental_map(map_string) {
-   var mapLocal = document.getElementById("map_location");
    mapLocal.value = map_string;
 }
 
 // map function
 function make_map() {
-  var mainMap = document.getElementById("main_map");
   if(!is_virtualized){
     switch (current_location) {
 	  case 0:

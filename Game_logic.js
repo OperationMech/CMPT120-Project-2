@@ -232,8 +232,8 @@ function interact_location(command) {
 		  }
 		  if( command_value_split[2].toLowerCase() === "uploader") {
 		    print_Game(locations[current_location][3]);
-			init_adventure_land();
 			is_virtualized = true;
+			init_adventure_land();
 		  }
 		}
 	}else if(command_value_split[1].toLowerCase() === "pickup" &&
@@ -399,10 +399,6 @@ function change_location(dir) {
 }
 
 function update_buttons() {
-   var b_north = document.getElementById("btnNorth");
-   var b_south = document.getElementById("btnSouth");
-   var b_east = document.getElementById("btnEast");
-   var b_west = document.getElementById("btnWest");
    switch(current_location) {
     case 1:
 	   b_north.disabled = false;

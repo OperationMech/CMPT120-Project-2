@@ -31,6 +31,8 @@ var n_westWood  = new Location ( "North Temple");
 var s_eastWood = new Location ( "South Grotto");
 
 //  northern mount
+var mountFoot = new Location ( "Foot of Volgon");
+var craterKeep = new Location ( "Keep of Volgon"); 
 var arcanePlains = new Location ( "Arcane Plains");
 
 //  west glacier

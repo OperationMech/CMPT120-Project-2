@@ -21,28 +21,75 @@ function hidden_room() {
 
 //adventureland locations
 
+// facility collapse
+var facilityEnd = null;
+
 //  enchanted wood
 var centralWood = new Location ("Central Wood");
 var northWood = new Location ("North Wood");
 var eastWood = new Location("East Wood");
-var westWood = new Location ( "West Wood");
+var westWood = new Location ("West Wood");
 var southWood = new Location ("South Wood");
-var n_westWood  = new Location ( "North Temple");
-var s_eastWood = new Location ( "South Grotto");
+var n_westWood  = new Location ("North Temple");
+var s_eastWood = new Location ("South Grotto");
 
 //  northern mount
-var mountFoot = new Location ( "Foot of Volgon");
-var craterKeep = new Location ( "Keep of Volgon"); 
-var arcanePlains = new Location ( "Arcane Plains");
+var mountFoot = new Location ("Foot of Volgon");
+var craterKeep = new Location ("Keep of Volgon"); 
+var arcanePlains = new Location ("Arcane Plains");
+var forgePlant = new Location ("Volgon Plant");
 
 //  west glacier
-var iceWall = new Location ( "Eastern Glaciation");
+var iceWall = new Location ("Eastern Glaciation");
+var lowerIceShelf = new Location ("Lower Glacier");
+var iceCave = new Location ("Frozen Cavern"); 
+var glacialPlain = new Location ("Glacier");
+var westIceChasm = new Location ("Upper Glacial Chasm");
+var l_WestIceChasm = new Location ("Lower Glacial Chasm");
+var iceArena = new Location ("Frost Altar");
 
 //  east coast
-var eastJetty = new Location ( "Eastern Jetty");
+var coastGate = new Location ("Coast Gate Coast Side");
+var eastJetty = new Location ("Eastern Jetty");
+var lightHouse = new Location ("Lighthouse");
+var eastCoastBluff = new Location ("Sea Bluff");
 
 //  tumbling plains
 var tumbPlainsNorth = new Location ("Northern Plains");
+var centralPlains = new Location ("Central Plains");
+var westFountain = new Location ("West Plains Fountain");
+var eastPlainsSlope = new Location ("East Slope");
+var southInfinity = new Location ("Infinite Plain");
+
+// BlRk mines
+  // above ground
+var lowerOverlook = new Location ("Lower Outlook Post");
+var upperOverlook = new Location ("Upper Outlook Post");
+var strippedLand = new Location ("Bleeding Rock Mines Entrance");
+var ironStream = new Location ("Bleeding Rock Stream");
+var ironBasin = new Location ("Blood Basin");
+  // underground 
+var BlRkMineA = new Location ("Tunnel A");
+var BlRkMineA_RM1 = new Location ("Tunnel A Room 1");
+var BlRkMineA_RM2 = new Location ("Tunnel A Room 2");
+var BlRkMineA_B = new Location ("Tunnel A to B");
+var BlRkMineB = new Location ("Tunnel B");
+var BlRkMineB_RM1 = new Location ("Tunnel B Room 1");
+var BlRkMineB_C = new Location ("Tunnel B to C");
+var BlRkMineC = new Location ("Tunnel C");
+var BlRkMineC_RM1 = new Location ("Tunnel C Room 1");
+var BlRkMineC_Mineshaft = new Location ("Tunnel C Mineshaft");
+
+// northwest Chasm
+var chasmicValley = new Location ("Chasm Floor");
+
+// northeast Swamp
+var enchantedGrotto = new Location ("Enchanted Grotto");
+var coastalSwamp = new Location ("Coast Gate Swamp Side");
+
+// southwest Mountains
+var footHill = new Location ("Range Foothill");
+var outlookPost = new Location ("Peak Outlook");
 
 // location prototype
 function Location (_name) {
